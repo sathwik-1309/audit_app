@@ -6,14 +6,16 @@ import { HOST_IP } from '../../config'
 import axios from 'axios'
 import SelectDropdown from 'react-native-select-dropdown'
 import SubCatIcon from '../../../assets/icons/sub-category.png'
+import ColorPalette from '../../../assets/icons/color-palette.png'
 import { getAuthToken } from '../../util'
 
-export default function CategoryForm({reload, close, categories}) {
+export default function CategoryForm({reload, close, data}) {
   const theme = Styles.light
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [newCat, setNewCat] = useState(true)
   const [category, setCategory] = useState(null)
+  const [color, setColor] = useState(null)
   async function handleSubmit() {
     if (name == ''){
       setError("Enter Category Name")
@@ -29,6 +31,11 @@ export default function CategoryForm({reload, close, categories}) {
       }
       payload.category_id = category.id
     }else {
+      if(!color){
+        setError("Select a color")
+        return
+      }
+      payload.color = color.color
       payload.force = true
     }
     const authToken = await getAuthToken()
@@ -64,7 +71,7 @@ export default function CategoryForm({reload, close, categories}) {
         <View style={[styles.input_box_select_option]}>
         <Image source={CategoryIcon} style={styles.img_style}/>
         <SelectDropdown
-          data={categories}
+          data={data.categories}
           onSelect={(selectedItem, index) => {
             setCategory(selectedItem)
           }}
@@ -94,6 +101,32 @@ export default function CategoryForm({reload, close, categories}) {
         style={styles.input_text}
         />
       </View>
+      {
+        newCat &&
+        <View style={{flexDirection: 'row', marginBottom: 20}}>
+      <Image source={ColorPalette} style={styles.img_style}/>
+        <SelectDropdown
+          data={data.colors}
+          onSelect={(selectedItem, index) => {
+            setColor(selectedItem)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem.name
+          }}
+          rowTextForSelection={(item, index) => {
+            return item.name
+          }}
+          defaultButtonText='Select Color'
+          buttonStyle={[styles.select_btn, {backgroundColor: color ? color.color : theme.bg2}]}
+          buttonTextStyle={[styles.select_btn_text, theme.c3]}
+          selectedRowStyle={theme.bg3}
+          selectedRowTextStyle={theme.c1}
+          showsVerticalScrollIndicator
+          rowStyle={{height: 50}}
+          rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+        />
+      </View>
+      }
       <View style={styles.button_row}>
         <TouchableOpacity style={[styles.button, theme.bg3]} onPress={handleSubmit}>
           <Text style={[styles.button_text, theme.c1]}>SAVE</Text>

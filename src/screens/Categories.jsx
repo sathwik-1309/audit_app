@@ -7,7 +7,7 @@ import CategoryList from '../components/Category/CategoryList'
 export default function Categories() {
   const theme = Styles.light
   return (
-    <SafeAreaView style={[styles.safe_area_view, theme.bg3]}>
+    <SafeAreaView style={[styles.safe_area_view, theme.bg2]}>
       <ScrollView>
         <View style={[styles.home]}>
           <CategoryList />

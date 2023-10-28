@@ -43,19 +43,19 @@ export default function CategoryList({categories}) {
 
   const theme = Styles.light
   return (
-    <View style={[styles.container, theme.bg2]}>
+    <View style={[styles.container, theme.bg1]}>
       <View style={[styles.header]}>
         <View style={styles.header_col1}><Text style={[styles.header_text, theme.c3]}>CATEGORIES</Text></View>
         <TouchableOpacity style={styles.icon_container} onPress={handleForm}><Image source={iconSource} style={{height: 20, width: 20}}/></TouchableOpacity>
       </View>
       {
         openForm &&
-        <CategoryForm reload={handleReload} close={handleForm} categories={data}/>
+        <CategoryForm reload={handleReload} close={handleForm} data={data}/>
       }
       <View style={styles.body}>
         {
           data &&
-          data.map((category)=>{
+          data.categories.map((category)=>{
             return(<CategoryBox data={category}/>)
           })
         }

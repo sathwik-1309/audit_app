@@ -2,19 +2,19 @@ import { StyleSheet } from "react-native"
 
 const light = StyleSheet.create({
   bg1: {
-    backgroundColor: '#2c3e50'
+    backgroundColor: '#d35400'
   },
   bg2: {
-    backgroundColor: '#34495e'
+    backgroundColor: '#e67e22'
   },
   bg3: {
     backgroundColor: 'white'
   },
   c1: {
-    color: '#2c3e50'
+    color: '#d35400'
   },
   c2: {
-    color: '#34495e'
+    color: '#e67e22'
   },
   c3: {
     color: 'white'

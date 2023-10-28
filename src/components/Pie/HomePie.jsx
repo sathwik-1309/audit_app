@@ -19,6 +19,7 @@ export default function HomePie({reload}) {
 
     fetchData();
   }, [reload])
+  console.log(data)
   const theme = Styles.light
   return (
     <View style={styles.pie_chart}>

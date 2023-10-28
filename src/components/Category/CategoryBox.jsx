@@ -17,8 +17,8 @@ export default function CategoryBox({data}) {
           </View>
           <View style={styles.row2}>
             <View style={styles.progress_bar}>
-              <View style={[{width: progress, height: 20}, theme.bg1]}></View>
-              <View style={[{width: 100-progress, height: 20, opacity: 0.5}, theme.bg1]}></View>
+              <View style={[{width: progress, height: 20, backgroundColor: data.color}]}></View>
+              <View style={[{width: 100-progress, height: 20, opacity: 0.5, backgroundColor: data.color}]}></View>
             </View>
           </View>
         </View>
