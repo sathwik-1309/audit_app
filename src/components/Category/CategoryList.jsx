@@ -6,6 +6,7 @@ import { Styles } from '../../Styles'
 import { HOST_IP } from '../../config'
 import CategoryForm from './CategoryForm'
 import CategoryBox from './CategoryBox'
+import { getAuthToken } from '../../util'
 
 export default function CategoryList({categories}) {
   const [data, setData] = useState(null)
@@ -13,17 +14,18 @@ export default function CategoryList({categories}) {
   const [openForm, setOpenForm] = useState(false)
   const [reload, setReload] = useState(false)
   const [iconSource, seticonSource] = useState(AddIcon)
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
-  const url = `${HOST_IP}/categories/index?auth_token=${authToken}`
+  
   useEffect(() => {
     const fetchData = async () => {
-    const response = await fetch(url);
-    const jsonData = await response.json();
-    setData(jsonData);
+      const authToken = await getAuthToken()
+      const url = `${HOST_IP}/categories/index?auth_token=${authToken}`
+      const response = await fetch(url);
+      const jsonData = await response.json();
+      setData(jsonData);
     };
 
     fetchData();
-  }, [reload, authToken]);
+  }, [reload]);
 
   const handleForm = () => {
     setOpenForm(!openForm)

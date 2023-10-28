@@ -6,6 +6,7 @@ import { Styles } from '../../Styles'
 import AccountBox from './AccountBox'
 import { HOST_IP } from '../../config'
 import AccountForm from './AccountForm'
+import { getAuthToken } from '../../util'
 
 export default function AccountList() {
   const [data, setData] = useState(null)
@@ -13,17 +14,18 @@ export default function AccountList() {
   const [openForm, setOpenForm] = useState(false)
   const [reload, setReload] = useState(false)
   const [iconSource, seticonSource] = useState(AddIcon)
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
-  const url = `${HOST_IP}/accounts/index?auth_token=${authToken}`
+  
   useEffect(() => {
     const fetchData = async () => {
-    const response = await fetch(url);
-    const jsonData = await response.json();
-    setData(jsonData);
+      const authToken = await getAuthToken()
+      const url = `${HOST_IP}/accounts/index?auth_token=${authToken}`
+      const response = await fetch(url);
+      const jsonData = await response.json();
+      setData(jsonData);
     };
 
     fetchData();
-  }, [reload, authToken]);
+  }, [reload]);
 
   const handleForm = () => {
     setOpenForm(!openForm)

@@ -9,6 +9,7 @@ import { HOST_IP } from '../config'
 import CreditForm from '../components/Transaction/CreditForm'
 import PaidByPartyForm from '../components/Transaction/PaidByPartyForm'
 import HomePie from '../components/Pie/HomePie'
+import { getAuthToken } from '../util'
 
 function TransactionBoxItem({type, theme, selected, setselected, accounts, categories, parties}) {
   const image_source = type == selected ? DownArrowColor : DownArrow
@@ -54,29 +55,42 @@ function TransactionBox({theme}) {
   const [accounts, setAccounts] = useState(null)
   const [parties, setParties] = useState(null)
   const [categories, setCategories] = useState(null)
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
-  const url = `${HOST_IP}/accounts/index?auth_token=${authToken}`
-  const url2 = `${HOST_IP}/sub_categories/index?auth_token=${authToken}`
-  const url3 = `${HOST_IP}/accounts/index_owed?auth_token=${authToken}`
   useEffect(() => {
     const fetchData = async () => {
-    const response = await fetch(url);
-    const jsonData = await response.json();
-    setAccounts(jsonData)
-    const response2 = await fetch(url2);
-    const jsonData2 = await response2.json();
-    setCategories(jsonData2)
-    const response3 = await fetch(url3);
-    const jsonData3 = await response3.json();
-    setParties(jsonData3)
+      try {
+        const authToken = await getAuthToken()
+
+        const url = `${HOST_IP}/accounts/index?auth_token=${authToken}`;
+        const url2 = `${HOST_IP}/sub_categories/index?auth_token=${authToken}`;
+        const url3 = `${HOST_IP}/accounts/index_owed?auth_token=${authToken}`;
+
+        const [response, response2, response3] = await Promise.all([
+          fetch(url),
+          fetch(url2),
+          fetch(url3),
+        ]);
+
+        const [jsonData, jsonData2, jsonData3] = await Promise.all([
+          response.json(),
+          response2.json(),
+          response3.json(),
+        ]);
+
+        setAccounts(jsonData);
+        setCategories(jsonData2);
+        setParties(jsonData3);
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
     };
 
-    fetchData();
-  }, [authToken]);
+    fetchData()
+  }, [])
+
   return (
     <View style={[styles.container, theme.bg2]}>
       <View style={[styles.header]}>
-        <Text style={[styles.header_text, theme.c3]}>ADD TRANSACTION</Text>
+        <Text style={[styles.header_text, theme.c3]}>ADD TRANSACTIONS</Text>
       </View>
       <View style={styles.body}>
         <TransactionBoxItem type='DEBIT' theme={theme} setselected={setselected} selected={selected} accounts={accounts} categories={categories}/>

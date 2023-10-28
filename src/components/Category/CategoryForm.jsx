@@ -6,6 +6,7 @@ import { HOST_IP } from '../../config'
 import axios from 'axios'
 import SelectDropdown from 'react-native-select-dropdown'
 import SubCatIcon from '../../../assets/icons/sub-category.png'
+import { getAuthToken } from '../../util'
 
 export default function CategoryForm({reload, close, categories}) {
   const theme = Styles.light
@@ -13,7 +14,6 @@ export default function CategoryForm({reload, close, categories}) {
   const [error, setError] = useState('')
   const [newCat, setNewCat] = useState(true)
   const [category, setCategory] = useState(null)
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
   async function handleSubmit() {
     if (name == ''){
       setError("Enter Category Name")
@@ -31,7 +31,7 @@ export default function CategoryForm({reload, close, categories}) {
     }else {
       payload.force = true
     }
-    
+    const authToken = await getAuthToken()
     const url = `${HOST_IP}/sub_categories/create?auth_token=${authToken}`
     try {
       const response = await axios.post(url, payload)
