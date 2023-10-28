@@ -6,6 +6,7 @@ import { Styles } from '../../Styles'
 import { HOST_IP } from '../../config'
 import CategoryForm from './CategoryForm'
 import CategoryBox from './CategoryBox'
+import { getAuthToken } from '../../util'
 
 export default function CategoryList({categories}) {
   const [data, setData] = useState(null)
@@ -13,17 +14,18 @@ export default function CategoryList({categories}) {
   const [openForm, setOpenForm] = useState(false)
   const [reload, setReload] = useState(false)
   const [iconSource, seticonSource] = useState(AddIcon)
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
-  const url = `${HOST_IP}/categories/index?auth_token=${authToken}`
+  
   useEffect(() => {
     const fetchData = async () => {
-    const response = await fetch(url);
-    const jsonData = await response.json();
-    setData(jsonData);
+      const authToken = await getAuthToken()
+      const url = `${HOST_IP}/categories/index?auth_token=${authToken}`
+      const response = await fetch(url);
+      const jsonData = await response.json();
+      setData(jsonData);
     };
 
     fetchData();
-  }, [reload, authToken]);
+  }, [reload]);
 
   const handleForm = () => {
     setOpenForm(!openForm)
@@ -41,19 +43,19 @@ export default function CategoryList({categories}) {
 
   const theme = Styles.light
   return (
-    <View style={[styles.container, theme.bg2]}>
+    <View style={[styles.container, theme.bg1]}>
       <View style={[styles.header]}>
         <View style={styles.header_col1}><Text style={[styles.header_text, theme.c3]}>CATEGORIES</Text></View>
         <TouchableOpacity style={styles.icon_container} onPress={handleForm}><Image source={iconSource} style={{height: 20, width: 20}}/></TouchableOpacity>
       </View>
       {
         openForm &&
-        <CategoryForm reload={handleReload} close={handleForm} categories={data}/>
+        <CategoryForm reload={handleReload} close={handleForm} data={data}/>
       }
       <View style={styles.body}>
         {
           data &&
-          data.map((category)=>{
+          data.categories.map((category)=>{
             return(<CategoryBox data={category}/>)
           })
         }

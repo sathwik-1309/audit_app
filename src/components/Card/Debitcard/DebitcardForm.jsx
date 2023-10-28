@@ -5,6 +5,7 @@ import Wallet from '../../../../assets/icons/wallet.png'
 import { Styles } from '../../../Styles'
 import { HOST_IP } from '../../../config'
 import axios from 'axios'
+import { getAuthToken } from '../../../util'
 
 function OptionItem({data, select, selected}) {
   const theme = Styles.light
@@ -22,7 +23,7 @@ export default function DebitcardForm({reload, close, accounts}) {
   const theme = Styles.light
   const [name, setName] = useState('')
   const [error, setError] = useState('')
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
+  
   async function handleSubmit() {
     if (name == ''){
       setError("Enter Card Name")
@@ -38,6 +39,7 @@ export default function DebitcardForm({reload, close, accounts}) {
       ctype: 'debitcard',
       account_id: account.id
     }
+    const authToken = await getAuthToken()
     const url = `${HOST_IP}/cards/create?auth_token=${authToken}`
     try {
       const response = await axios.post(url, payload)

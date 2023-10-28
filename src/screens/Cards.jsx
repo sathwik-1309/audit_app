@@ -5,27 +5,28 @@ import BottomBar from '../components/BottomBar'
 import DebitcardList from '../components/Card/Debitcard/DebitcardList'
 import { HOST_IP } from '../config'
 import CreditcardList from '../components/Card/Creditcard/CreditcardList'
+import { getAuthToken } from '../util'
 
 export default function Cards() {
   const [data, setData] = useState(null)
   const [accounts, setAccounts] = useState(null)
   const [reload, setReload] = useState(false)
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
-  const url = `${HOST_IP}/cards/index?auth_token=${authToken}`
-  const url2 = `${HOST_IP}/accounts/index?auth_token=${authToken}`
+  
   useEffect(() => {
     const fetchData = async () => {
-    const response = await fetch(url);
-    const jsonData = await response.json();
-    console.log(jsonData)
-    setData(jsonData);
-    const response2 = await fetch(url2);
-    const jsonData2 = await response2.json();
-    setAccounts(jsonData2)
+      const authToken = await getAuthToken()
+      const url = `${HOST_IP}/cards/index?auth_token=${authToken}`
+      const url2 = `${HOST_IP}/accounts/index?auth_token=${authToken}`
+      const response = await fetch(url);
+      const jsonData = await response.json();
+      setData(jsonData);
+      const response2 = await fetch(url2);
+      const jsonData2 = await response2.json();
+      setAccounts(jsonData2)
     };
 
     fetchData();
-  }, [reload, authToken]);
+  }, [reload]);
 
   const handleReload = () => {
     setReload(reload+1)

@@ -6,29 +6,34 @@ import { useNavigation } from '@react-navigation/native'
 import { saveAuthToken, getAuthToken } from '../util'
 import axios from 'axios'
 
-export default function Login() {
+export default function Signup() {
   const theme = Styles.light
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const navigation = useNavigation()
-  async function handleLogin() {
-    console.log(email=='')
+  async function handleSignup() {
+    if (name=='') {
+      setError("Please enter Name")
+      return
+    }
     if (email=='') {
-      console.log('email')
       setError("Please enter Email")
       return
     }
-    console.log(password)
     if (password=='') {
-      console.log('password')
       setError("Please enter Password")
       return
     }
-    const url = `${HOST_IP}/users/check?email=${email}&password=${password}`
-    
+    const url = `${HOST_IP}/users/create`
+    const payload = {
+      name: name,
+      email: email,
+      password: password
+    }
     try{
-      const response = await axios.get(url)
+      const response = await axios.post(url, payload)
       if(response.status == 200){
         setError('')
         saveAuthToken(response.data.auth_token)
@@ -45,8 +50,16 @@ export default function Login() {
   return (
     <SafeAreaView style={styles.page}>
       <View style={styles.login_box}>
-        <View style={styles.label}><Text style={[theme.c3, styles.lable_text]}>LOGIN</Text></View>
+        <View style={styles.label}><Text style={[theme.c3, styles.lable_text]}>SIGN UP</Text></View>
         <Text style={{color: 'red', fontWeight: '600'}}>{error}</Text>
+        <View style={styles.input_box}>
+          <TextInput 
+          placeholder="Enter Name"
+          value={name}
+          onChangeText={(name) => setName(name)}
+          style={styles.input_text}
+          />
+        </View>
         <View style={styles.input_box}>
           <TextInput 
           placeholder="Enter Email"
@@ -65,16 +78,15 @@ export default function Login() {
           />
         </View>
         <View style={[styles.flex_center, {marginTop: 20}]}>
-          <TouchableOpacity style={[styles.btn, theme.bg3, styles.flex_center]} onPress={handleLogin}>
-            <Text style={styles.btn_text}>Login</Text>
+          <TouchableOpacity style={[styles.btn, theme.bg3, styles.flex_center]} onPress={handleSignup}>
+            <Text style={styles.btn_text}>Sign up</Text>
           </TouchableOpacity>
         </View>
         <View style={{marginTop: 20}}>
-          <Text>Dont have an account?</Text>
-          <Pressable onPress={()=>navigation.navigate('Signup')}><Text style={{color: 'lightblue'}}>Sign up</Text></Pressable>
+          <Text>Already have an account?</Text>
+          <Pressable onPress={()=>navigation.navigate('Login')}><Text style={{color: 'lightblue'}}>Login</Text></Pressable>
         </View>
       </View>
-      
     </SafeAreaView>
   )
 }

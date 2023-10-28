@@ -1,16 +1,18 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import Wallet from '../../../assets/icons/wallet.png'
 import { Styles } from '../../Styles'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
+import { getAuthToken } from '../../util'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function AccountForm({reload, close}) {
   const theme = Styles.light
   const [name, setName] = useState('')
   const [balance, setBalance] = useState('')
   const [error, setError] = useState('')
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
+ 
   async function handleSubmit() {
     if (name == ''){
       setError("Enter Account Name")
@@ -20,19 +22,20 @@ export default function AccountForm({reload, close}) {
       setError("Enter Opening Balance")
       return
     }
+
+
     const payload = {
       name: name,
       balance: balance
     }
+    const authToken = await getAuthToken()
     const url = `${HOST_IP}/accounts/create?auth_token=${authToken}`
     try {
       const response = await axios.post(url, payload)
-      console.log(response.status)
-      console.log(response.data)
       if(response.status == 200){
+        close()
         reload()
         setError('')
-        close()
       }else if (response.status == 202){
         setError(response.data.message)
       }else {

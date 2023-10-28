@@ -9,8 +9,9 @@ import DateColor from '../../../assets/icons/calendar-color.png'
 import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
+import { getAuthToken } from '../../util'
 
-export default function DebitForm({accounts, categories, close}) {
+export default function DebitForm({accounts, categories, close, reload}) {
   const theme = Styles.light
   const [amount, setAmount] = useState('')
   const [account, setAccount] = useState(null)
@@ -29,7 +30,7 @@ export default function DebitForm({accounts, categories, close}) {
       setError("Select Account")
       return
     }
-    const authToken = 'RU1DXY3JdugqBy3yoWzy'
+    const authToken = await getAuthToken()
     const url = `${HOST_IP}/transactions/debit?auth_token=${authToken}`
     let payload = {
       amount: amount,
@@ -43,6 +44,7 @@ export default function DebitForm({accounts, categories, close}) {
       if(response.status == 200){
         setError('')
         close('')
+        reload()
       }else if (response.status == 202){
         setError(response.data.message)
       }else {

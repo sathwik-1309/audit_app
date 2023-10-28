@@ -4,12 +4,12 @@ import CardIcon from '../../../../assets/icons/card.png'
 import { Styles } from '../../../Styles'
 import { HOST_IP } from '../../../config'
 import axios from 'axios'
+import { getAuthToken } from '../../../util'
 
 export default function CreditcardForm({reload, close}) {
   const theme = Styles.light
   const [name, setName] = useState('')
   const [error, setError] = useState('')
-  const authToken = 'RU1DXY3JdugqBy3yoWzy'
   async function handleSubmit() {
     if (name == ''){
       setError("Enter Card Name")
@@ -20,6 +20,7 @@ export default function CreditcardForm({reload, close}) {
       name: name,
       ctype: 'creditcard'
     }
+    const authToken = await getAuthToken()
     const url = `${HOST_IP}/cards/create?auth_token=${authToken}`
     try {
       const response = await axios.post(url, payload)
