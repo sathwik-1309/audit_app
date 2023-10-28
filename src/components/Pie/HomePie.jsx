@@ -27,7 +27,7 @@ export default function HomePie() {
         data && 
         <>
         {
-          data.length > 5 ?
+          data.length > 0 ?
           <>
           <PieChart
             widthAndHeight={250}
