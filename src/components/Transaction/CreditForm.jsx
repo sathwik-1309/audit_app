@@ -11,7 +11,7 @@ import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
 
-export default function CreditForm({accounts, close}) {
+export default function CreditForm({accounts, close, reload}) {
   const theme = Styles.light
   const [amount, setAmount] = useState('')
   const [account, setAccount] = useState(null)
@@ -42,6 +42,7 @@ export default function CreditForm({accounts, close}) {
       if(response.status == 200){
         setError('')
         close('')
+        reload()
       }else if (response.status == 202){
         setError(response.data.message)
       }else {

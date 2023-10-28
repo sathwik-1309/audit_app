@@ -11,7 +11,7 @@ import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
 
-export default function PaidByPartyForm({parties, categories, close}) {
+export default function PaidByPartyForm({parties, categories, close, reload}) {
   const theme = Styles.light
   const [amount, setAmount] = useState('')
   const [party, setParty] = useState(null)
@@ -44,6 +44,7 @@ export default function PaidByPartyForm({parties, categories, close}) {
       if(response.status == 200){
         setError('')
         close('')
+        reload()
       }else if (response.status == 202){
         setError(response.data.message)
       }else {

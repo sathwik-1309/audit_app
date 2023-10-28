@@ -6,7 +6,7 @@ import { HOST_IP } from '../../config'
 import DetailBox from './DetailBox'
 import { getAuthToken } from '../../util'
 
-export default function HomePie() {
+export default function HomePie({reload}) {
   const [data, setData] = useState(null)
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +18,7 @@ export default function HomePie() {
     };
 
     fetchData();
-  }, [])
+  }, [reload])
   const theme = Styles.light
   return (
     <View style={styles.pie_chart}>
