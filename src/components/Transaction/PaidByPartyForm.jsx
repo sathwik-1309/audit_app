@@ -148,7 +148,7 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
         {/* <TouchableOpacity style={[styles.deatailed_btn, theme.bg2]}>
           <Text style={[styles.deatailed_text, theme.c3]}>EXPAND</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={[styles.save_btn]} onPress={handleCreate}>
+        <TouchableOpacity style={[styles.save_btn, theme.bg1]} onPress={handleCreate}>
           <Text style={[styles.deatailed_text, theme.c3]}>SAVE</Text>
         </TouchableOpacity>
       </View>

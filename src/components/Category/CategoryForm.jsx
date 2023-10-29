@@ -59,7 +59,7 @@ export default function CategoryForm({reload, close, data}) {
     
   }
   return (
-    <View>
+    <View style={[theme.bg2, {borderRadius: 8, marginTop: 5, padding: 5}]}>
       {
         error &&
         <Text style={styles.error}>{error}</Text>

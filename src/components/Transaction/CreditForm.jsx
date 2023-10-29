@@ -124,7 +124,7 @@ export default function CreditForm({accounts, close, reload}) {
         {/* <TouchableOpacity style={[styles.deatailed_btn, theme.bg2]}>
           <Text style={[styles.deatailed_text, theme.c3]}>EXPAND</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={[styles.save_btn]} onPress={handleCreate}>
+        <TouchableOpacity style={[styles.save_btn, theme.bg1]} onPress={handleCreate}>
           <Text style={[styles.deatailed_text, theme.c3]}>SAVE</Text>
         </TouchableOpacity>
       </View>
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     marginVertical: 3
   },
   border_width: {
-    borderWidth: 2
+    borderWidth: 1,
+    borderStyle: 'dotted'
   },
   input_text: {
     flex: 1,
