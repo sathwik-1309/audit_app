@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Styles } from '../../Styles'
 import SelectDropdown from 'react-native-select-dropdown'
 import PartyColor from '../../../assets/icons/owed-color.png'
@@ -10,9 +10,11 @@ import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function PaidByPartyForm({parties, categories, close, reload}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [amount, setAmount] = useState('')
   const [party, setParty] = useState(null)
   const [category, setCategory] = useState(null)

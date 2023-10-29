@@ -1,12 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Styles } from '../Styles'
 import Icon from './Icon'
 import { useNavigation } from '@react-navigation/native'
+import ThemeContext from './Context/ThemeContext'
 
 
 function BottomBarItem({data}) {
-  const theme = Styles.light
+  let {themeColor} = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const navigation = useNavigation()
   let icon
   switch(data){
@@ -38,7 +40,8 @@ function BottomBarItem({data}) {
 }
 
 export default function BottomBar() {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <View style={[styles.BottomBar, theme.bg1]}>
       <BottomBarItem data='Home'/>
@@ -56,16 +59,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    // shadowColor: 'black',
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 3,
+    elevation: 4
   },
   BottomBarItem: {
     height: 50,
     width: 50,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   text: {
     fontSize: 10,

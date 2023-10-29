@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import OwedIcon from '../../../assets/icons/owed.png'
 import { Styles } from '../../Styles'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function OwedForm({reload, close}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   async function handleSubmit() {

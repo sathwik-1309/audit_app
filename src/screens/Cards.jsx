@@ -1,11 +1,12 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { Styles } from '../Styles'
 import BottomBar from '../components/BottomBar'
 import DebitcardList from '../components/Card/Debitcard/DebitcardList'
 import { HOST_IP } from '../config'
 import CreditcardList from '../components/Card/Creditcard/CreditcardList'
 import { getAuthToken } from '../util'
+import ThemeContext from '../components/Context/ThemeContext'
 
 export default function Cards() {
   const [data, setData] = useState(null)
@@ -31,7 +32,8 @@ export default function Cards() {
   const handleReload = () => {
     setReload(reload+1)
   }
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <SafeAreaView style={[styles.safe_area_view, theme.bg3]}>
       <ScrollView>

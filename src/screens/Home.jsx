@@ -1,5 +1,5 @@
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, useColorScheme, RefreshControl } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Styles } from '../Styles';
 import BottomBar from '../components/BottomBar';
 import DownArrow from '../../assets/icons/down-arrow.png';
@@ -10,6 +10,7 @@ import CreditForm from '../components/Transaction/CreditForm';
 import PaidByPartyForm from '../components/Transaction/PaidByPartyForm';
 import HomePie from '../components/Pie/HomePie';
 import { getAuthToken } from '../util';
+import ThemeContext from '../components/Context/ThemeContext';
 
 function TransactionBoxItem({ type, theme, selected, setselected, accounts, categories, parties }) {
   const image_source = type == selected ? DownArrowColor : DownArrow;
@@ -103,10 +104,10 @@ function TransactionBox({ theme, reload }) {
 }
 
 export default function Home() {
-  const theme = Styles.light;
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [refreshing, setRefreshing] = useState(false);
   const [reload, setReload] = useState(0)
-  
   const onRefresh = () => {
     setRefreshing(true);
     setReload(reload+1)
@@ -147,6 +148,7 @@ const styles = StyleSheet.create({
     width: 320,
     borderRadius: 12,
     padding: 12,
+    elevation: 2
   },
   header: {
     flexDirection: 'row',

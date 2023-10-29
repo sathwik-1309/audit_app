@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import RightArrow from '../../../assets/icons/right-arrow-next.png'
 import OwedIcon from '../../../assets/icons/owed.png'
 import { Styles } from '../../Styles'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function OwedBox({data}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[theme.bg1, styles.account_box]}>

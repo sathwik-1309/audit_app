@@ -1,10 +1,11 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import CancelIcon from '../../../../assets/icons/cancel.png'
 import AddIcon from '../../../../assets/icons/add.png'
 import { Styles } from '../../../Styles'
 import CreditcardBox from './CreditcardBox'
 import CreditcardForm from './CreditcardForm'
+import ThemeContext from '../../Context/ThemeContext'
 
 export default function CreditcardList({data, reload, accounts}) {
   const [openForm, setOpenForm] = useState(false)
@@ -21,7 +22,8 @@ export default function CreditcardList({data, reload, accounts}) {
     
   }
 
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <View style={[styles.container, theme.bg2]}>
       <View style={[styles.header]}>

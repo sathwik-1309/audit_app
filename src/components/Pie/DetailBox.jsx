@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Styles } from '../../Styles'
+import ThemeContext from '../Context/ThemeContext'
 function DetailBoxItem({data}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return(
     <View style={[styles.detail_box_item, theme.bg3]}>
       <View style={{backgroundColor: data.color, width: 35, height: 35, borderRadius: 6}}></View>
@@ -14,7 +16,8 @@ function DetailBoxItem({data}) {
 }
 
 export default function DetailBox({data}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <View style={[styles.detail_box, theme.bg2]}>
       <View style={{flexDirection: 'row', height: 30, alignItems: 'center'}}>

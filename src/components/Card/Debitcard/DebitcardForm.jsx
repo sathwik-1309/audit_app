@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Pressable, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CardIcon from '../../../../assets/icons/card.png'
 import Wallet from '../../../../assets/icons/wallet.png'
 import { Styles } from '../../../Styles'
 import { HOST_IP } from '../../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../../util'
+import ThemeContext from '../../Context/ThemeContext'
 
 function OptionItem({data, select, selected}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   let text_color = selected && data.id == selected.id ? theme.c3 : theme.c1
   let bg_color = selected && data.id == selected.id ? theme.bg1 : theme.bg3
   return (
@@ -20,7 +22,8 @@ function OptionItem({data, select, selected}) {
 
 export default function DebitcardForm({reload, close, accounts}) {
   const [account, setAccount] = useState(null)
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   

@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import RightArrow from '../../../assets/icons/right-arrow-next.png'
 import Wallet from '../../../assets/icons/wallet.png'
 import { Styles } from '../../Styles'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function AccountBox({data}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[theme.bg1, styles.account_box]}>
@@ -27,12 +29,12 @@ export default function AccountBox({data}) {
 
 const styles = StyleSheet.create({
   container: {
-    
+
   },
   account_box: {
     borderRadius: 10,
     flexDirection: 'row',
-    marginVertical: 4
+    marginVertical: 4,
   },
   details: {
     width: 240

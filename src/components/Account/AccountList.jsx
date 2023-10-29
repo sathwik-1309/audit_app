@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import AddIcon from '../../../assets/icons/add.png'
 import CancelIcon from '../../../assets/icons/cancel.png'
 import { Styles } from '../../Styles'
@@ -7,6 +7,7 @@ import AccountBox from './AccountBox'
 import { HOST_IP } from '../../config'
 import AccountForm from './AccountForm'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function AccountList() {
   const [data, setData] = useState(null)
@@ -41,7 +42,8 @@ export default function AccountList() {
     setReload(reload+1)
   }
 
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <View style={[styles.container, theme.bg2]}>
       <View style={[styles.header]}>
