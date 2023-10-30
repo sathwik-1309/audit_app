@@ -1,11 +1,13 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import RightArrow from '../../../../assets/icons/right-arrow-next.png'
 import Card from '../../../../assets/icons/card.png'
 import { Styles } from '../../../Styles'
+import ThemeContext from '../../Context/ThemeContext'
 
 export default function CreditcardBox({data}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[theme.bg1, styles.account_box]}>
@@ -32,10 +34,10 @@ const styles = StyleSheet.create({
   account_box: {
     borderRadius: 10,
     flexDirection: 'row',
-    marginVertical: 4
+    marginVertical: 5
   },
   details: {
-    width: 240
+    width: 230
   },
   arrow: {
     flex: 1,

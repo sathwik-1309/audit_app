@@ -1,13 +1,15 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import { Styles } from '../Styles'
 import { HOST_IP } from '../config'
 import { useNavigation } from '@react-navigation/native'
 import { saveAuthToken, getAuthToken } from '../util'
 import axios from 'axios'
+import ThemeContext from '../components/Context/ThemeContext'
 
 export default function Signup() {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

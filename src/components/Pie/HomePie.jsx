@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { Styles } from '../../Styles'
 import PieChart from 'react-native-pie-chart'
 import { HOST_IP } from '../../config'
 import DetailBox from './DetailBox'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function HomePie({reload}) {
   const [data, setData] = useState(null)
@@ -19,8 +20,9 @@ export default function HomePie({reload}) {
 
     fetchData();
   }, [reload])
-  console.log(data)
-  const theme = Styles.light
+
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <View style={styles.pie_chart}>
       <View style={styles.pie_header}><Text style={[theme.c1, styles.pie_header_text]}>Category Split</Text></View> 

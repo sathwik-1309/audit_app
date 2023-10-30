@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Styles } from '../../Styles'
 import SelectDropdown from 'react-native-select-dropdown'
 import WalletColor from '../../../assets/icons/wallet-color.png'
@@ -10,9 +10,11 @@ import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function DebitForm({accounts, categories, close, reload}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [amount, setAmount] = useState('')
   const [account, setAccount] = useState(null)
   const [category, setCategory] = useState(null)
@@ -146,7 +148,7 @@ export default function DebitForm({accounts, categories, close, reload}) {
         {/* <TouchableOpacity style={[styles.deatailed_btn, theme.bg2]}>
           <Text style={[styles.deatailed_text, theme.c3]}>EXPAND</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={[styles.save_btn]} onPress={handleCreate}>
+        <TouchableOpacity style={[styles.save_btn, theme.bg1]} onPress={handleCreate}>
           <Text style={[styles.deatailed_text, theme.c3]}>SAVE</Text>
         </TouchableOpacity>
       </View>

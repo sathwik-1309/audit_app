@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import AddIcon from '../../../assets/icons/add.png'
 import CancelIcon from '../../../assets/icons/cancel.png'
 import { Styles } from '../../Styles'
@@ -7,6 +7,7 @@ import { HOST_IP } from '../../config'
 import CategoryForm from './CategoryForm'
 import CategoryBox from './CategoryBox'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function CategoryList({categories}) {
   const [data, setData] = useState(null)
@@ -14,6 +15,7 @@ export default function CategoryList({categories}) {
   const [openForm, setOpenForm] = useState(false)
   const [reload, setReload] = useState(false)
   const [iconSource, seticonSource] = useState(AddIcon)
+  const [iconText, seticonText] = useState('ADD')
   
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +33,10 @@ export default function CategoryList({categories}) {
     setOpenForm(!openForm)
     if (iconSource == AddIcon) {
       seticonSource(CancelIcon)
+      seticonText('CLOSE')
     }else {
       seticonSource(AddIcon)
+      seticonText('ADD')
     }
     
   }
@@ -41,24 +45,35 @@ export default function CategoryList({categories}) {
     setReload(reload+1)
   }
 
-  const theme = Styles.light
+  const categoriesGrid = []
+  if (data && data.categories) {
+    for (let i = 0; i < data.categories.length; i += 2) {
+      const row = data.categories.slice(i, i + 2);
+      categoriesGrid.push(row);
+    }
+  }
+
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
-    <View style={[styles.container, theme.bg1]}>
-      <View style={[styles.header]}>
-        <View style={styles.header_col1}><Text style={[styles.header_text, theme.c3]}>CATEGORIES</Text></View>
-        <TouchableOpacity style={styles.icon_container} onPress={handleForm}><Image source={iconSource} style={{height: 20, width: 20}}/></TouchableOpacity>
+    <View style={[styles.container, theme.bg3]}>
+      <View style={[styles.header, {borderBottomColor: theme.c1.color}]}>
+        <View style={styles.header_col1}><Text style={[styles.header_text, theme.c1]}>CATEGORIES</Text></View>
+        {/* <TouchableOpacity style={styles.icon_container} onPress={handleForm}><Image source={iconSource} style={{height: 20, width: 20}}/></TouchableOpacity> */}
+        <TouchableOpacity style={styles.icon_container} onPress={handleForm}><Text style={[theme.c1, styles.add_text]}>{iconText}</Text></TouchableOpacity>
       </View>
       {
         openForm &&
         <CategoryForm reload={handleReload} close={handleForm} data={data}/>
       }
       <View style={styles.body}>
-        {
-          data &&
-          data.categories.map((category)=>{
-            return(<CategoryBox data={category}/>)
-          })
-        }
+        {categoriesGrid.map((row, index) => (
+          <View style={styles.row} key={index}>
+            {row.map((category) => (
+              <CategoryBox data={category} key={category.id} />
+            ))}
+          </View>
+        ))}
       </View>
     </View>
   )
@@ -66,15 +81,14 @@ export default function CategoryList({categories}) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 320,
+    width: 330,
     borderRadius: 12,
-    padding: 12
+    padding: 15
   },
   header: {
     flexDirection: 'row',
     height: 40,
     alignItems: 'center',
-    borderBottomColor: 'white',
     borderBottomWidth: 1
   },
   header_text: {
@@ -92,7 +106,14 @@ const styles = StyleSheet.create({
     height: 40,
   },
   body: {
-    marginTop: 10
+    marginTop: 10,
   },
-  
+  add_text: {
+    fontWeight: '700',
+    fontSize: 11,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 })

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import CategoryIcon from '../../../assets/icons/category.png'
 import { Styles } from '../../Styles'
 import { HOST_IP } from '../../config'
@@ -8,9 +8,11 @@ import SelectDropdown from 'react-native-select-dropdown'
 import SubCatIcon from '../../../assets/icons/sub-category.png'
 import ColorPalette from '../../../assets/icons/color-palette.png'
 import { getAuthToken } from '../../util'
+import ThemeContext from '../Context/ThemeContext'
 
 export default function CategoryForm({reload, close, data}) {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [newCat, setNewCat] = useState(true)
@@ -57,7 +59,7 @@ export default function CategoryForm({reload, close, data}) {
     
   }
   return (
-    <View>
+    <View style={[theme.bg2, {borderRadius: 8, marginTop: 5, padding: 5}]}>
       {
         error &&
         <Text style={styles.error}>{error}</Text>

@@ -1,12 +1,14 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, useColorScheme } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Styles } from '../Styles'
 import BottomBar from '../components/BottomBar'
 import AccountList from '../components/Account/AccountList'
 import OwedList from '../components/Owed/OwedList'
+import ThemeContext from '../components/Context/ThemeContext'
 
 export default function Accounts() {
-  const theme = Styles.light
+  let { themeColor } = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   return (
     <SafeAreaView style={[styles.safe_area_view, theme.bg3]}>
       <ScrollView>
