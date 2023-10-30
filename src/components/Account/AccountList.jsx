@@ -57,8 +57,8 @@ export default function AccountList() {
       <View style={styles.body}>
         {
           data &&
-          data.map((account)=>{
-            return(<AccountBox data={account}/>)
+          data.map((account, index)=>{
+            return(<AccountBox data={account} key={index}/>)
           })
         }
       </View>
@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
   container: {
     width: 320,
     borderRadius: 12,
-    padding: 12
+    paddingHorizontal: 15,
+    paddingVertical: 15
   },
   header: {
     flexDirection: 'row',

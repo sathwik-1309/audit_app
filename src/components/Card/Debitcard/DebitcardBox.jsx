@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
   account_box: {
     borderRadius: 10,
     flexDirection: 'row',
-    marginVertical: 4
+    marginVertical: 5
   },
   details: {
-    width: 240
+    width: 230
   },
   arrow: {
     flex: 1,

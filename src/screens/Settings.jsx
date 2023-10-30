@@ -11,6 +11,7 @@ import Wallet from '../../assets/icons/wallet.png'
 import CardIcon from '../../assets/icons/card.png'
 import { HOST_IP } from '../config'
 import { getAuthToken } from '../util'
+import axios from 'axios'
 
 function ThemeChooserBox({data}) {
   const theme = data.style
@@ -18,7 +19,7 @@ function ThemeChooserBox({data}) {
   const handleThemeChange = async (data) => {
     setThemeColor(data.name.toLowerCase())
     const authToken = await getAuthToken()
-    const url = `${HOST_IP}/users/create?auth_token=${authToken}`
+    const url = `${HOST_IP}/users/update?auth_token=${authToken}`
     const payload = {
       app_theme: data.name.toLowerCase()
     }
@@ -129,8 +130,8 @@ export default function Settings() {
           <ScrollView horizontal style={[styles.themes_container]}>
             <View style={{width: 20}}></View>
             {
-              themes_array.map((theme)=>{
-                return(<ThemeChooserBox data={theme}/>)
+              themes_array.map((theme, index)=>{
+                return(<ThemeChooserBox data={theme} key={index}/>)
               })
             }
             <View style={{width: 40}}></View>

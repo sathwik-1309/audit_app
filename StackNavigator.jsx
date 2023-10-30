@@ -11,6 +11,7 @@ import { getAuthToken } from './src/util'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import Signup from './src/screens/Signup'
+import AccountScreen from './src/screens/AccountScreen'
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator()
@@ -31,10 +32,11 @@ export default function StackNavigator() {
   }, []);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false}} initialRouteName='Login'>
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: 'default'}} initialRouteName='Login'>
       <Stack.Group>
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="Accounts" component={Accounts}/>
+        <Stack.Screen name="Account" component={AccountScreen}/>
         <Stack.Screen name="Categories" component={Categories}/>
         <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="Cards" component={Cards}/>

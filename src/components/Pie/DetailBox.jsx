@@ -19,9 +19,9 @@ export default function DetailBox({data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   return (
-    <View style={[styles.detail_box, theme.bg2]}>
-      <View style={{flexDirection: 'row', height: 30, alignItems: 'center'}}>
-        <View style={{width: 45, alignItems: 'center'}}><Text style={[styles.percentage_text, theme.c3]}>Color</Text></View>
+    <View style={[styles.detail_box, theme.bg1]}>
+      <View style={[styles.detail_box_header, theme.bg2]}>
+        <View style={{width: 55, alignItems: 'center'}}><Text style={[styles.percentage_text, theme.c3]}>Color</Text></View>
         <View style={{width: 45, alignItems: 'center'}}><Text style={[styles.percentage_text, theme.c3]}>%</Text></View>
         <View style={{width: 65, alignItems: 'center'}}><Text style={[styles.percentage_text, theme.c3]}>Category</Text></View>
         <View style={{width: 80, alignItems: 'center'}}><Text style={[styles.percentage_text, theme.c3]}>Spent</Text></View>
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
   percentage: {
     width: 50,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: 10
   },
   percentage_text: {
     fontSize: 14,
@@ -69,5 +70,12 @@ const styles = StyleSheet.create({
   expenditure_text: {
     fontSize: 14,
     fontWeight: '700'
+  },
+  detail_box_header: {
+    flexDirection: 'row',
+    height: 40,
+    alignItems: 'center',
+    borderRadius: 6,
+    marginBottom: 2
   }
 })

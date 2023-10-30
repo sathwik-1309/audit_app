@@ -81,9 +81,9 @@ export default function CategoryList({categories}) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 320,
+    width: 330,
     borderRadius: 12,
-    padding: 12
+    padding: 15
   },
   header: {
     flexDirection: 'row',
