@@ -12,7 +12,7 @@ import axios from 'axios'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
 
-export default function PaidByPartyForm({parties, categories, close, reload}) {
+export default function PaidByPartyForm({ close, reload, data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [amount, setAmount] = useState('')
@@ -77,7 +77,7 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
       <View style={[styles.input_box_select_option, styles.border_width, party==null ? theme.b_red : theme.b_green]}>
         <Image source={PartyColor} style={styles.img_style}/>
         <SelectDropdown
-          data={parties}
+          data={data.parties}
           onSelect={(selectedItem, index) => {
             setParty(selectedItem)
           }}
@@ -100,7 +100,7 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
       <View style={[styles.input_box_select_option, category==null ? theme.b_red : theme.b_green]}>
         <Image source={CategoryColor} style={styles.img_style}/>
         <SelectDropdown
-          data={categories}
+          data={data.sub_categories}
           onSelect={(selectedItem, index) => {
             setCategory(selectedItem)
           }}

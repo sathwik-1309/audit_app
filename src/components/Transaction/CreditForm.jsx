@@ -6,13 +6,14 @@ import WalletColor from '../../../assets/icons/wallet-color.png'
 import CategoryColor from '../../../assets/icons/category-color.png'
 import CommentsColor from '../../../assets/icons/comments-color.png'
 import DateColor from '../../../assets/icons/calendar-color.png'
+import PaymentIcon from '../../../assets/icons/payment.png'
 import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
 
-export default function CreditForm({accounts, close, reload}) {
+export default function CreditForm({data, close, reload}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [amount, setAmount] = useState('')
@@ -21,6 +22,7 @@ export default function CreditForm({accounts, close, reload}) {
   const [date, setDate] = useState(new Date())
   const [openDate, setOpenDate] = useState(false)
   const [error, setError] = useState('')
+  const [mop, setMop] = useState(null)
 
   async function handleCreate() {
     if (amount=='') {
@@ -39,6 +41,7 @@ export default function CreditForm({accounts, close, reload}) {
       date: date
     }
     if (comments!='') payload.comments = comments
+    if (mop!=null) payload.mop_id = mop.id
     try {
       const response = await axios.post(url, payload)
       if(response.status == 200){
@@ -54,6 +57,8 @@ export default function CreditForm({accounts, close, reload}) {
       setError(error.message)
     }
   }
+
+  let mops = account ? account.mops : []
 
   return (
     <View style={[styles.container, theme.bg3]}>
@@ -75,7 +80,7 @@ export default function CreditForm({accounts, close, reload}) {
       <View style={[styles.input_box_select_option, styles.border_width, account==null ? theme.b_red : theme.b_green]}>
         <Image source={WalletColor} style={styles.img_style}/>
         <SelectDropdown
-          data={accounts}
+          data={data.accounts}
           onSelect={(selectedItem, index) => {
             setAccount(selectedItem)
           }}
@@ -120,6 +125,29 @@ export default function CreditForm({accounts, close, reload}) {
           }}
           />
       </Pressable>
+      <View style={[styles.input_box_select_option]}>
+        <Image source={PaymentIcon} style={styles.img_style}/>
+        <SelectDropdown
+          data={mops}
+          onSelect={(selectedItem, index) => {
+            setMop(selectedItem)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem.name
+          }}
+          rowTextForSelection={(item, index) => {
+            return item.name
+          }}
+          defaultButtonText='Select Mode'
+          buttonStyle={[styles.select_btn, theme.bg3]}
+          buttonTextStyle={[styles.select_btn_text, theme.c1]}
+          selectedRowStyle={theme.bg1}
+          selectedRowTextStyle={theme.c3}
+          showsVerticalScrollIndicator
+          rowStyle={{height: 50}}
+          rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+        />
+      </View>
       <View style={styles.btn_row}>
         {/* <TouchableOpacity style={[styles.deatailed_btn, theme.bg2]}>
           <Text style={[styles.deatailed_text, theme.c3]}>EXPAND</Text>

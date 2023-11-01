@@ -7,13 +7,18 @@ import { getAuthToken } from '../../util'
 import axios from 'axios'
 import EditIcon from '../../../assets/icons/edit.png'
 import CancelIcon from '../../../assets/icons/cancel.png'
+import MopList from '../Mop/MopList'
 
-export default function AccountDetails({id, acc_name, setHeader, reload}) {
+export default function AccountDetails({id, acc_name, setHeader, drag}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [edit, setEdit] = useState(false)
   const [name, setName] = useState(acc_name)
   const [data, setData] = useState(null)
+  const [reload, setReload] = useState(0)
+  const handleReload = () => {
+    setReload(reload+1)
+  }
   useEffect(() => {
     const fetchData = async () => {
       const authToken = await getAuthToken()
@@ -23,7 +28,7 @@ export default function AccountDetails({id, acc_name, setHeader, reload}) {
     };
 
     fetchData()
-  }, [reload])
+  }, [reload, drag])
   const handleSave = async () => {
     const payload = {
       name: name
@@ -99,6 +104,11 @@ export default function AccountDetails({id, acc_name, setHeader, reload}) {
         </View>
         
       </View>
+      {
+        data &&
+        <MopList data={data.mops} account_id={id} reload={handleReload}/>
+      }
+      
     </View>
 
     
