@@ -15,6 +15,7 @@ import { getAuthToken } from '../util'
 import TransactionsList from '../components/Transaction/TransactionsList'
 import MonthPicker from '../components/MonthPicker'
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper'
+import AnalyticsParent from '../components/Transaction/AnalyticsParent'
 
 export default function AccountScreen({route}) {
   const { id, name } = route.params
@@ -87,6 +88,10 @@ export default function AccountScreen({route}) {
     {
       name: 'Split',
       comp: comp_category
+    },
+    {
+      name: 'Analytics',
+      comp: <AnalyticsParent drag={reload} payload={tr_api_payload}/>
     }
   ]
   const [page, setPage] = useState(pages[0])

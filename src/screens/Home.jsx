@@ -13,6 +13,7 @@ import { getAuthToken } from '../util';
 import ThemeContext, { ThemeProvider } from '../components/Context/ThemeContext';
 import NavigationBar from '../components/NavigationBar';
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper';
+import AnalyticsParent from '../components/Transaction/AnalyticsParent';
 
 function TransactionBoxItem({ type, theme, selected, setselected, accounts, categories, parties }) {
   const image_source = type == selected ? DownArrowColor : DownArrow;
@@ -129,6 +130,10 @@ export default function Home() {
     {
       name: 'Split',
       comp: <View style={{marginTop: 20}}><HomePie drag={reload}/></View>
+    },
+    {
+      name: 'Analytics',
+      comp: <AnalyticsParent drag={reload}/>
     }
   ]
   const [page, setPage] = useState(pages[0])
