@@ -1,8 +1,9 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import ThemeContext from './Context/ThemeContext'
 import { Styles } from '../Styles'
 import { useNavigation } from '@react-navigation/native'
+import BackIcon from '../../assets/icons/back.png'
 
 export default function Topbar({header}) {
   let { themeColor } = useContext(ThemeContext)
@@ -10,7 +11,7 @@ export default function Topbar({header}) {
   const navigation = useNavigation()
   return (
     <View style={styles.topbar}>
-      <Pressable style={{width: 40, justifyContent: 'center', height: 40}} onPress={()=>navigation.pop()}><Text style={{color: 'black'}}>BACK</Text></Pressable>
+      <Pressable style={{width: 50, height: 50, justifyContent: 'center', paddingLeft: 10}} onPress={()=>navigation.pop()}><Image source={BackIcon} style={{height: 25, width: 25}}/></Pressable>
       <View style={styles.header}><Text style={styles.header_text}>{header}</Text></View>
     </View>
   )

@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
   },
   BottomBarItem: {
     height: 50,
-    width: 50,
+    width: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: '600',
   }
 })

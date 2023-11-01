@@ -37,8 +37,8 @@ export default function DebitcardList({data, reload, accounts}) {
       <View style={styles.body}>
         {
           data &&
-          data.map((card)=>{
-            return(<DebitcardBox data={card}/>)
+          data.map((card, index)=>{
+            return(<DebitcardBox data={card} key={index}/>)
           })
         }
       </View>

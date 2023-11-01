@@ -9,8 +9,8 @@ export default function TransactionBox({data, index}) {
   return (
     <View style={[styles.box, theme.bg1]}>
       {/* <View style={[styles.ttype,  data.ttype == 'credit' ? styles.credit : styles.debit]}><Text style={[theme.c3, styles.ttype_text]}>{data.ttype.toUpperCase()}</Text></View> */}
-      <View style={[styles.ttype]}><Text style={[styles.ttype_text]}>{data.ttype.toUpperCase()}</Text></View>
-      <View style={styles.amount}><Text style={[styles.amount_text, theme.c3]}>₹ {data.amount}</Text></View>
+      <View style={styles.amount}><Text style={[styles.amount_text, theme.c3]}>{data.signed_amount}</Text></View>
+      <View style={[styles.date]}><Text style={[styles.date_text]}>{data.date}</Text></View>
       <View style={[styles.category]}>
         {
           data.category &&
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   ttype: {
     borderRadius: 10,
-    width: 50,
+    width: 80,
     justifyContent: 'center',
     alignItems: 'center',
     height: 18,
@@ -58,17 +58,15 @@ const styles = StyleSheet.create({
     color: '#3a9e41'
   },
   date: {
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
+    width: 70
   },
   date_text: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600'
   },
   amount: {
     width: 110,
-    alignItems: 'center'
+    paddingLeft: 10
   },
   amount_text: {
     fontWeight: '700',

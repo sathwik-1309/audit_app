@@ -10,7 +10,9 @@ import CreditForm from '../components/Transaction/CreditForm';
 import PaidByPartyForm from '../components/Transaction/PaidByPartyForm';
 import HomePie from '../components/Pie/HomePie';
 import { getAuthToken } from '../util';
-import ThemeContext from '../components/Context/ThemeContext';
+import ThemeContext, { ThemeProvider } from '../components/Context/ThemeContext';
+import NavigationBar from '../components/NavigationBar';
+import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper';
 
 function TransactionBoxItem({ type, theme, selected, setselected, accounts, categories, parties }) {
   const image_source = type == selected ? DownArrowColor : DownArrow;
@@ -52,7 +54,9 @@ function TransactionBoxItem({ type, theme, selected, setselected, accounts, cate
   );
 }
 
-function TransactionBox({ theme, reload }) {
+function TransactionBox({reload }) {
+  let {themeColor} = useContext(ThemeContext)
+  const theme = Styles[themeColor]
   const [selected, setselected] = useState('');
   const [accounts, setAccounts] = useState(null);
   const [parties, setParties] = useState(null);
@@ -112,7 +116,22 @@ export default function Home() {
     setRefreshing(true);
     setReload(reload+1)
     setRefreshing(false);
-  };
+  }
+  const pages = [
+    {
+      name: 'Add New',
+      comp: <TransactionBox reload={reload}/>
+    },
+    {
+      name: 'Transactions',
+      comp: <TransactionListWrapper />
+    },
+    {
+      name: 'Split',
+      comp: <View style={{marginTop: 20}}><HomePie drag={reload}/></View>
+    }
+  ]
+  const [page, setPage] = useState(pages[0])
 
   return (
     <SafeAreaView style={styles.safe_area_view}>
@@ -125,8 +144,8 @@ export default function Home() {
         }
       >
         <View style={[styles.home]}>
-          <TransactionBox theme={theme} reload={reload}/>
-          <HomePie reload={reload}/>
+          <NavigationBar pages={pages} cur_page={page} setPage={setPage}/>
+          {page.comp}
         </View>
       </ScrollView>
       <BottomBar />

@@ -9,7 +9,7 @@ import OwedForm from './OwedForm'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
 
-export default function OwedList() {
+export default function OwedList({drag}) {
   const [data, setData] = useState(null)
   const [visible, setVisible] = useState(false)
   const [openForm, setOpenForm] = useState(false)
@@ -25,7 +25,7 @@ export default function OwedList() {
     };
 
     fetchData();
-  }, [reload]);
+  }, [reload, drag]);
 
   const handleForm = () => {
     setOpenForm(!openForm)
@@ -56,8 +56,8 @@ export default function OwedList() {
       <View style={styles.body}>
         {
           data &&
-          data.map((account)=>{
-            return(<OwedBox data={account}/>)
+          data.map((account, index)=>{
+            return(<OwedBox data={account} key={index}/>)
           })
         }
       </View>
