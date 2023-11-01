@@ -31,14 +31,14 @@ export default function NavigationBar({pages, cur_page, setPage}) {
 const styles = StyleSheet.create({
   navigation_bar: {
     flexDirection: 'row',
-    padding: 5,
+    paddingVertical: 5,
     borderRadius: 4,
-    marginBottom: 20
+    marginBottom: 20,
+    paddingHorizontal: 5
   },
   navigation_bar_item: {
-    padding: 5,
     borderRadius: 4,
-    width: 90 ,
+    width: 85 ,
     justifyContent: 'center',
     alignItems: 'center',
     height: 30
