@@ -86,12 +86,12 @@ export default function Settings() {
       name: 'Midnight'
     },
     {
-      style: ruby,
-      name: 'Ruby'
-    },
-    {
       style: magenta,
       name: 'Magenta'
+    },
+    {
+      style: ruby,
+      name: 'Ruby'
     },
     {
       style: sea,
@@ -175,13 +175,14 @@ const styles = StyleSheet.create({
     minWidth: 400,
     marginBottom: 20,
     elevation: 1,
+    borderBottomColor: 'black'
   },
   theme_chooser: {
     width: 140,
     borderRadius: 8,
     overflow: 'hidden',
     padding: 8,
-    margin: 5
+    margin: 5,
   },
   theme_item: {
     flexDirection: 'row',

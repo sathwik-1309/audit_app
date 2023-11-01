@@ -8,8 +8,9 @@ import { HOST_IP } from '../../config'
 import AccountForm from './AccountForm'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
+import axios from 'axios'
 
-export default function AccountList() {
+export default function AccountList({drag}) {
   const [data, setData] = useState(null)
   const [visible, setVisible] = useState(false)
   const [openForm, setOpenForm] = useState(false)
@@ -18,15 +19,15 @@ export default function AccountList() {
   
   useEffect(() => {
     const fetchData = async () => {
+      const timestamp = new Date().getTime()
       const authToken = await getAuthToken()
-      const url = `${HOST_IP}/accounts/index?auth_token=${authToken}`
-      const response = await fetch(url);
-      const jsonData = await response.json();
-      setData(jsonData);
+      const url = `${HOST_IP}/accounts/index?auth_token=${authToken}&timestamp=${timestamp}`
+      const response = await axios.get(url)
+      setData(response.data)
     };
 
     fetchData();
-  }, [reload]);
+  }, [reload, drag]);
 
   const handleForm = () => {
     setOpenForm(!openForm)

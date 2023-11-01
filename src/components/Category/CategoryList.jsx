@@ -9,7 +9,7 @@ import CategoryBox from './CategoryBox'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
 
-export default function CategoryList({categories}) {
+export default function CategoryList({categories, drag}) {
   const [data, setData] = useState(null)
   const [visible, setVisible] = useState(false)
   const [openForm, setOpenForm] = useState(false)
@@ -27,7 +27,7 @@ export default function CategoryList({categories}) {
     };
 
     fetchData();
-  }, [reload]);
+  }, [reload, drag]);
 
   const handleForm = () => {
     setOpenForm(!openForm)
