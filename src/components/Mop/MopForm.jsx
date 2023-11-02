@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import React, { useContext, useState } from 'react'
 import { Styles } from '../../Styles'
 import ThemeContext from '../Context/ThemeContext'
-import PaymentIcon from '../../../assets/icons/payment.png'
+import PaymentIcon from '../../../assets/icons/mop.png'
 import { getAuthToken } from '../../util'
 import axios from 'axios'
 import { HOST_IP } from '../../config'

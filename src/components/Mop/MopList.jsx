@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import AddIcon from '../../../assets/icons/add.png'
 import CancelIcon from '../../../assets/icons/cancel.png'
+import MopIcon from '../../../assets/icons/mop.png'
 import ThemeContext from '../Context/ThemeContext'
 import { Styles } from '../../Styles'
 import MopForm from './MopForm'
@@ -11,6 +12,7 @@ function MopBox({mop}) {
   const theme = Styles[themeColor]
   return(
   <View style={[styles.mop_item, theme.bg1]}>
+    <View style={{width: 50, alignItems: 'center'}}><Image source={MopIcon} style={{height: 20, width: 20}}/></View>
     <Text style={[theme.c3, {fontWeight: '500'}]}>{mop.name}</Text>
   </View>
   )
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
   },
   mop_item: {
     height: 40,
-    paddingLeft: 20,
-    justifyContent: 'center'
+    alignItems: 'center',
+    flexDirection: 'row'
   }
 })

@@ -10,6 +10,7 @@ import ThemeContext from '../components/Context/ThemeContext'
 export default function Login() {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  console.log(themeColor)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')

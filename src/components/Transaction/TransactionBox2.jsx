@@ -34,8 +34,7 @@ export default function TransactionBox2({data, index}) {
 const styles = StyleSheet.create({
   box: {
     width: 300,
-    marginBottom: 5,
-    borderRadius: 8
+    marginBottom: 1,
   },
   comment: {
     paddingLeft: 10,

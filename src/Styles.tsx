@@ -29,7 +29,7 @@ const orange = StyleSheet.create({
 
 const midnight = StyleSheet.create({
   bg1: {
-    backgroundColor: '#2c3e50'
+    backgroundColor: '#222f3e'
   },
   bg2: {
     backgroundColor: '#34495e'
@@ -38,7 +38,7 @@ const midnight = StyleSheet.create({
     backgroundColor: 'white'
   },
   c1: {
-    color: '#2c3e50'
+    color: '#222f3e'
   },
   c2: {
     color: '#34495e'
@@ -83,19 +83,19 @@ const sea = StyleSheet.create({
 
 const ruby = StyleSheet.create({
   bg1: {
-    backgroundColor: '#c0392b'
+    backgroundColor: '#800c0a'
   },
   bg2: {
-    backgroundColor: '#e74c3c'
+    backgroundColor: '#b03331'
   },
   bg3: {
     backgroundColor: 'white'
   },
   c1: {
-    color: '#c0392b'
+    color: '#800c0a'
   },
   c2: {
-    color: '#e74c3c'
+    color: '#b03331'
   },
   c3: {
     color: 'white'
@@ -110,19 +110,19 @@ const ruby = StyleSheet.create({
 
 const purple = StyleSheet.create({
   bg1: {
-    backgroundColor: '#8e44ad'
+    backgroundColor: '#473157'
   },
   bg2: {
-    backgroundColor: '#9b59b6'
+    backgroundColor: '#9364b5'
   },
   bg3: {
     backgroundColor: 'white'
   },
   c1: {
-    color: '#8e44ad'
+    color: '#473157'
   },
   c2: {
-    color: '#9b59b6'
+    color: '#9364b5'
   },
   c3: {
     color: 'white'
@@ -135,21 +135,21 @@ const purple = StyleSheet.create({
   }
 })
 
-const lavender = StyleSheet.create({
+const navy = StyleSheet.create({
   bg1: {
-    backgroundColor: '#82589F'
+    backgroundColor: '#0c2461'
   },
   bg2: {
-    backgroundColor: '#D6A2E8'
+    backgroundColor: '#4a69bd'
   },
   bg3: {
     backgroundColor: 'white'
   },
   c1: {
-    color: '#82589F'
+    color: '#0c2461'
   },
   c2: {
-    color: '#D6A2E8'
+    color: '#4a69bd'
   },
   c3: {
     color: 'white'
@@ -191,19 +191,19 @@ const aqua = StyleSheet.create({
 
 const pink = StyleSheet.create({
   bg1: {
-    backgroundColor: '#e84393'
+    backgroundColor: '#c44569'
   },
   bg2: {
-    backgroundColor: '#fd79a8'
+    backgroundColor: '#cf6a87'
   },
   bg3: {
     backgroundColor: 'white'
   },
   c1: {
-    color: '#e84393'
+    color: '#c44569'
   },
   c2: {
-    color: '#fd79a8'
+    color: '#cf6a87'
   },
   c3: {
     color: 'white'
@@ -270,4 +270,6 @@ const forest = StyleSheet.create({
   }
 })
 
-export const Styles = {orange, sea, midnight, ruby, purple, lavender, aqua, pink, magenta, forest}
+const gray = '#808080'
+
+export const Styles = {orange, sea, midnight, ruby, purple, navy, aqua, pink, magenta, forest, gray}

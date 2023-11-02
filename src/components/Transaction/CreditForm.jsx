@@ -6,16 +6,20 @@ import WalletColor from '../../../assets/icons/wallet-color.png'
 import CategoryColor from '../../../assets/icons/category-color.png'
 import CommentsColor from '../../../assets/icons/comments-color.png'
 import DateColor from '../../../assets/icons/calendar-color.png'
-import PaymentIcon from '../../../assets/icons/payment.png'
+import PaymentIcon from '../../../assets/icons/mop-color.png'
 import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
+import ColorIcon from '../ColorIcon'
 
 export default function CreditForm({data, close, reload}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  const gray = {
+    color: Styles.gray
+  }
   const [amount, setAmount] = useState('')
   const [account, setAccount] = useState(null)
   const [comments, setComments] = useState('')
@@ -66,10 +70,10 @@ export default function CreditForm({data, close, reload}) {
         error != '' &&
         <Text style={{color: 'red', fontWeight: '500'}}>{error}</Text>
       }
-      <View style={[styles.input_box, styles.border_width, amount=='' ? theme.b_red : theme.b_green]}>
+      <View style={[styles.input_box, styles.border_width, amount=='' ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
         <View style={styles.rupee}><Text style={[styles.rupee_text, theme.c1]}>₹</Text></View>
         <TextInput 
-        placeholder="Amount"
+        placeholder="    Amount"
         placeholderTextColor='gray'
         value={amount}
         keyboardType="numeric"
@@ -77,8 +81,8 @@ export default function CreditForm({data, close, reload}) {
         style={[styles.input_text, theme.c1, styles.bold]}
         />  
       </View>
-      <View style={[styles.input_box_select_option, styles.border_width, account==null ? theme.b_red : theme.b_green]}>
-        <Image source={WalletColor} style={styles.img_style}/>
+      <View style={[styles.input_box_select_option, styles.border_width, account==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
+        <ColorIcon icon='wallet' style={styles.img_style}/>
         <SelectDropdown
           data={data.accounts}
           onSelect={(selectedItem, index) => {
@@ -92,7 +96,7 @@ export default function CreditForm({data, close, reload}) {
           }}
           defaultButtonText='Select Account'
           buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, theme.c1]}
+          buttonTextStyle={[styles.select_btn_text, account ? theme.c1 : gray]}
           selectedRowStyle={theme.bg1}
           selectedRowTextStyle={theme.c3}
           showsVerticalScrollIndicator
@@ -102,9 +106,9 @@ export default function CreditForm({data, close, reload}) {
       </View>
       
       <View style={[styles.input_box]}>
-        <Image source={CommentsColor} style={[styles.img_style, {marginLeft: 10}]}/>
+        <ColorIcon icon='comments' style={[styles.img_style, {marginLeft: 10}]}/>
         <TextInput 
-        placeholder="Comments"
+        placeholder="   Comments"
         placeholderTextColor='gray'
         value={comments}
         onChangeText={(comments) => setComments(comments)}
@@ -112,7 +116,7 @@ export default function CreditForm({data, close, reload}) {
         /> 
       </View>
       <Pressable style={[styles.input_box_select_option, account==null ? theme.b_red : theme.b_green]} onPress={()=>{setOpenDate(!openDate)}}>
-        <Image source={DateColor} style={styles.img_style}/>
+        <ColorIcon icon='calendar' style={styles.img_style}/>
         <View style={styles.date}><Text style={[styles.date_text, theme.c1]}>{date.toDateString()}</Text></View>
         <DatePicker date={date} onDateChange={setDate} modal={true} open={openDate}
         mode='date'
@@ -126,7 +130,7 @@ export default function CreditForm({data, close, reload}) {
           />
       </Pressable>
       <View style={[styles.input_box_select_option]}>
-        <Image source={PaymentIcon} style={styles.img_style}/>
+        <ColorIcon icon='mop' style={styles.img_style}/>
         <SelectDropdown
           data={mops}
           onSelect={(selectedItem, index) => {
@@ -140,7 +144,7 @@ export default function CreditForm({data, close, reload}) {
           }}
           defaultButtonText='Select Mode'
           buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, theme.c1]}
+          buttonTextStyle={[styles.select_btn_text, mop ? theme.c1 : gray]}
           selectedRowStyle={theme.bg1}
           selectedRowTextStyle={theme.c3}
           showsVerticalScrollIndicator
@@ -189,7 +193,7 @@ const styles = StyleSheet.create({
   },
   border_width: {
     borderWidth: 1,
-    borderStyle: 'dotted'
+    borderStyle: 'dashed'
   },
   input_text: {
     flex: 1,
@@ -203,6 +207,7 @@ const styles = StyleSheet.create({
   },
   rupee_text: {
     fontSize: 20,
+    paddingLeft: 15
   },
   bold: {
     fontWeight: '600'
