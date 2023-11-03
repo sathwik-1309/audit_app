@@ -4,10 +4,12 @@ import RightArrow from '../../../../assets/icons/right-arrow-next.png'
 import Card from '../../../../assets/icons/card.png'
 import { Styles } from '../../../Styles'
 import ThemeContext from '../../Context/ThemeContext'
+import { useNavigation } from '@react-navigation/native'
 
 export default function DebitcardBox({data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  const navigation = useNavigation()
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[theme.bg1, styles.account_box]}>
@@ -20,7 +22,7 @@ export default function DebitcardBox({data}) {
             <Text style={styles.balance_label}>Account <Text style={[styles.amount, theme.c3]}>{data.account}</Text></Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.arrow}><Image source={RightArrow} style={{height: 25, width: 25}}/></TouchableOpacity>
+        <TouchableOpacity style={styles.arrow} onPress={()=>navigation.navigate("Debitcard", {id: data.id, name: data.name})}><Image source={RightArrow} style={{height: 25, width: 25}}/></TouchableOpacity>
       </View>
       
     </TouchableOpacity>

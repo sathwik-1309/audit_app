@@ -19,7 +19,7 @@ export default function TransactionBox2({data, index}) {
         </View>
       </View>
       <View style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{paddingLeft: 20, width: 140}}><Text style={[theme.c3, {fontWeight: '700', fontSize: 15}]}>{data.signed_amount}</Text></View>
+        <View style={{paddingLeft: 20, width: 140}}><Text style={[theme.c3, {fontWeight: '700', fontSize: 16}]}>{data.signed_amount}</Text></View>
         <View><Text style={{fontSize: 11, fontWeight: '400'}}>Balance <Text style={[theme.c3, {fontSize: 12, fontWeight: '500'}]}>₹ {data.balance_after}</Text></Text></View>
         
       </View>
