@@ -8,6 +8,9 @@ import EditIcon from '../../../../assets/icons/edit.png'
 import CancelIcon from '../../../../assets/icons/cancel.png'
 import ThemeContext from '../../Context/ThemeContext'
 import CommentsIcon from '../../../../assets/icons/comments.png'
+import DeleteIcon from '../../../../assets/icons/delete.png'
+import YesNoModal from '../../YesNoModal'
+import { useNavigation } from '@react-navigation/native'
 
 export default function CreditcardDetails({id, card_name, setHeader, drag}) {
   let {themeColor} = useContext(ThemeContext)
@@ -18,9 +21,8 @@ export default function CreditcardDetails({id, card_name, setHeader, drag}) {
   const [data, setData] = useState(null)
   const [comments, setComments] = useState(null)
   const [reload, setReload] = useState(0)
-  const handleReload = () => {
-    setReload(reload+1)
-  }
+  const navigation = useNavigation()
+  
   useEffect(() => {
     const fetchData = async () => {
       const authToken = await getAuthToken()
@@ -71,6 +73,29 @@ export default function CreditcardDetails({id, card_name, setHeader, drag}) {
     }catch(error){
       console.log(error)
     }
+  }
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  async function handleYes () {
+    const authToken = await getAuthToken()
+    const url = `${HOST_IP}/cards/${id}/delete?auth_token=${authToken}`
+    try{
+      const response = await axios.delete(url)
+      if (response.status != 200){
+        console.log(response.data)
+      }
+      else{
+        navigation.pop()
+      }
+    }catch(error){
+      console.log(error)
+    }
+    setModalVisible(false)
+  }
+
+  const handleNo = () => {
+    setModalVisible(false)
   }
   return (
     <View>
@@ -140,6 +165,18 @@ export default function CreditcardDetails({id, card_name, setHeader, drag}) {
           </>
         }
         
+      </View>
+      <View style={{alignItems: 'center'}}>
+        <TouchableOpacity style={[{height: 40, width: 100, flexDirection: 'row', alignItems: 'center', borderRadius: 6}, theme.bg1]} onPress={() => setModalVisible(true)}>
+          <View style={{width: 40, alignItems: 'center'}}><Image source={DeleteIcon} style={{height: 20, width: 20}}/></View>
+          <View style={{width: 60, justifyContent: 'center'}}><Text style={[theme.c3, {fontWeight: '500', fontSize: 13}]}>DELETE</Text></View>
+        </TouchableOpacity>
+        <YesNoModal
+          isVisible={isModalVisible}
+          onYes={handleYes}
+          onNo={handleNo}
+          message="Are you sure you want to delete the Card?"
+        />
       </View>
       
     </View>
