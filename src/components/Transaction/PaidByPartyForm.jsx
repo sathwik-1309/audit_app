@@ -11,8 +11,9 @@ import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
+import ColorIcon from '../ColorIcon'
 
-export default function PaidByPartyForm({parties, categories, close, reload}) {
+export default function PaidByPartyForm({ close, reload, data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [amount, setAmount] = useState('')
@@ -22,6 +23,9 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
   const [date, setDate] = useState(new Date())
   const [openDate, setOpenDate] = useState(false)
   const [error, setError] = useState('')
+  const gray = {
+    color: Styles.gray
+  }
 
   async function handleCreate() {
     if (amount=='') {
@@ -63,10 +67,10 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
         error != '' &&
         <Text style={{color: 'red', fontWeight: '500'}}>{error}</Text>
       }
-      <View style={[styles.input_box, styles.border_width, amount=='' ? theme.b_red : theme.b_green]}>
+      <View style={[styles.input_box, styles.border_width, amount=='' ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
         <View style={styles.rupee}><Text style={[styles.rupee_text, theme.c1]}>₹</Text></View>
         <TextInput 
-        placeholder="Amount"
+        placeholder="   Amount"
         placeholderTextColor='gray'
         value={amount}
         keyboardType="numeric"
@@ -74,10 +78,10 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
         style={[styles.input_text, theme.c1, styles.bold]}
         />  
       </View>
-      <View style={[styles.input_box_select_option, styles.border_width, party==null ? theme.b_red : theme.b_green]}>
-        <Image source={PartyColor} style={styles.img_style}/>
+      <View style={[styles.input_box_select_option, styles.border_width, party==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
+        <ColorIcon icon='user' style={styles.img_style}/>
         <SelectDropdown
-          data={parties}
+          data={data.parties}
           onSelect={(selectedItem, index) => {
             setParty(selectedItem)
           }}
@@ -87,9 +91,9 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
           rowTextForSelection={(item, index) => {
             return item.name
           }}
-          defaultButtonText='Select Party'
+          defaultButtonText='Select Party       '
           buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, theme.c1]}
+          buttonTextStyle={[styles.select_btn_text, party ? theme.c1 : gray]}
           selectedRowStyle={theme.bg1}
           selectedRowTextStyle={theme.c3}
           showsVerticalScrollIndicator
@@ -98,9 +102,9 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
         />
       </View>
       <View style={[styles.input_box_select_option, category==null ? theme.b_red : theme.b_green]}>
-        <Image source={CategoryColor} style={styles.img_style}/>
+        <ColorIcon icon='category' style={styles.img_style}/>
         <SelectDropdown
-          data={categories}
+          data={data.sub_categories}
           onSelect={(selectedItem, index) => {
             setCategory(selectedItem)
           }}
@@ -112,7 +116,7 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
           }}
           defaultButtonText='Select Category'
           buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, theme.c1]}
+          buttonTextStyle={[styles.select_btn_text, category ? theme.c1 : gray]}
           selectedRowStyle={theme.bg1}
           selectedRowTextStyle={theme.c3}
           showsVerticalScrollIndicator
@@ -121,9 +125,9 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
         />
       </View>
       <View style={[styles.input_box]}>
-        <Image source={CommentsColor} style={[styles.img_style, {marginLeft: 10}]}/>
+        <ColorIcon icon='comments' style={[styles.img_style, {marginLeft: 10}]}/>
         <TextInput 
-        placeholder="Comments"
+        placeholder="  Comments"
         placeholderTextColor='gray'
         value={comments}
         onChangeText={(comments) => setComments(comments)}
@@ -131,7 +135,7 @@ export default function PaidByPartyForm({parties, categories, close, reload}) {
         /> 
       </View>
       <Pressable style={[styles.input_box_select_option]} onPress={()=>{setOpenDate(!openDate)}}>
-        <Image source={DateColor} style={styles.img_style}/>
+        <ColorIcon icon='calendar' style={styles.img_style}/>
         <View style={styles.date}><Text style={[styles.date_text, theme.c1]}>{date.toDateString()}</Text></View>
         <DatePicker date={date} onDateChange={setDate} modal={true} open={openDate}
         mode='date'
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
   },
   border_width: {
     borderWidth: 1,
-    borderStyle: 'dotted'
+    borderStyle: 'dashed'
   },
   input_text: {
     flex: 1,

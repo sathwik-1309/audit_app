@@ -14,8 +14,9 @@ import ThemeContext, { ThemeProvider } from '../components/Context/ThemeContext'
 import NavigationBar from '../components/NavigationBar';
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper';
 import AnalyticsParent from '../components/Transaction/AnalyticsParent';
+import axios from 'axios';
 
-function TransactionBoxItem({ type, theme, selected, setselected, accounts, categories, parties }) {
+function TransactionBoxItem({ type, theme, selected, setselected, data }) {
   const image_source = type == selected ? DownArrowColor : DownArrow;
   const openForm = () => {
     if (type == selected) {
@@ -27,13 +28,13 @@ function TransactionBoxItem({ type, theme, selected, setselected, accounts, cate
   let form;
   switch (type) {
     case 'DEBIT':
-      form = <DebitForm accounts={accounts} categories={categories} close={setselected} />;
+      form = <DebitForm data={data} close={setselected} />;
       break;
     case 'CREDIT':
-      form = <CreditForm accounts={accounts} close={setselected} />;
+      form = <CreditForm data={data} close={setselected} />;
       break;
     case 'PAID BY PARTY':
-      form = <PaidByPartyForm parties={parties} close={setselected} categories={categories} />;
+      form = <PaidByPartyForm data={data} close={setselected} />;
       break;
     default:
       break;
@@ -62,34 +63,15 @@ function TransactionBox({reload }) {
   const [accounts, setAccounts] = useState(null);
   const [parties, setParties] = useState(null);
   const [categories, setCategories] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const authToken = await getAuthToken();
-        const url = `${HOST_IP}/accounts/index?auth_token=${authToken}`;
-        const url2 = `${HOST_IP}/sub_categories/index?auth_token=${authToken}`;
-        const url3 = `${HOST_IP}/accounts/index_owed?auth_token=${authToken}`;
-        
-        const [response, response2, response3] = await Promise.all([
-          fetch(url),
-          fetch(url2),
-          fetch(url3),
-        ]);
-        
-        const [jsonData, jsonData2, jsonData3] = await Promise.all([
-          response.json(),
-          response2.json(),
-          response3.json(),
-        ]);
-        
-        setAccounts(jsonData);
-        setCategories(jsonData2);
-        setParties(jsonData3);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+      const authToken = await getAuthToken();
+      const url = `${HOST_IP}/v1/users/home?auth_token=${authToken}`;
+      const response = await axios.get(url)
+      setData(response.data)
+    }
 
     fetchData();
   }, [reload]);
@@ -100,9 +82,9 @@ function TransactionBox({reload }) {
         <Text style={[styles.header_text, theme.c3]}>ADD TRANSACTIONS</Text>
       </View>
       <View style={styles.body}>
-        <TransactionBoxItem type='DEBIT' theme={theme} setselected={setselected} selected={selected} accounts={accounts} categories={categories} parties={parties} />
-        <TransactionBoxItem type='CREDIT' theme={theme} setselected={setselected} selected={selected} accounts={accounts} parties={parties} />
-        <TransactionBoxItem type='PAID BY PARTY' theme={theme} setselected={setselected} selected={selected} parties={parties} categories={categories} />
+        <TransactionBoxItem type='DEBIT' theme={theme} setselected={setselected} selected={selected} data={data} />
+        <TransactionBoxItem type='CREDIT' theme={theme} setselected={setselected} selected={selected} data={data} />
+        <TransactionBoxItem type='PAID BY PARTY' theme={theme} setselected={setselected} selected={selected} data={data} />
       </View>
     </View>
   );

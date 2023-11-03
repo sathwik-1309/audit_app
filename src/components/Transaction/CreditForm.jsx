@@ -6,21 +6,27 @@ import WalletColor from '../../../assets/icons/wallet-color.png'
 import CategoryColor from '../../../assets/icons/category-color.png'
 import CommentsColor from '../../../assets/icons/comments-color.png'
 import DateColor from '../../../assets/icons/calendar-color.png'
+import PaymentIcon from '../../../assets/icons/mop-color.png'
 import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
+import ColorIcon from '../ColorIcon'
 
-export default function CreditForm({accounts, close, reload}) {
+export default function CreditForm({data, close, reload}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  const gray = {
+    color: Styles.gray
+  }
   const [amount, setAmount] = useState('')
   const [account, setAccount] = useState(null)
   const [comments, setComments] = useState('')
   const [date, setDate] = useState(new Date())
   const [openDate, setOpenDate] = useState(false)
   const [error, setError] = useState('')
+  const [mop, setMop] = useState(null)
 
   async function handleCreate() {
     if (amount=='') {
@@ -39,6 +45,7 @@ export default function CreditForm({accounts, close, reload}) {
       date: date
     }
     if (comments!='') payload.comments = comments
+    if (mop!=null) payload.mop_id = mop.id
     try {
       const response = await axios.post(url, payload)
       if(response.status == 200){
@@ -55,16 +62,18 @@ export default function CreditForm({accounts, close, reload}) {
     }
   }
 
+  let mops = account ? account.mops : []
+
   return (
     <View style={[styles.container, theme.bg3]}>
       {
         error != '' &&
         <Text style={{color: 'red', fontWeight: '500'}}>{error}</Text>
       }
-      <View style={[styles.input_box, styles.border_width, amount=='' ? theme.b_red : theme.b_green]}>
+      <View style={[styles.input_box, styles.border_width, amount=='' ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
         <View style={styles.rupee}><Text style={[styles.rupee_text, theme.c1]}>₹</Text></View>
         <TextInput 
-        placeholder="Amount"
+        placeholder="    Amount"
         placeholderTextColor='gray'
         value={amount}
         keyboardType="numeric"
@@ -72,10 +81,10 @@ export default function CreditForm({accounts, close, reload}) {
         style={[styles.input_text, theme.c1, styles.bold]}
         />  
       </View>
-      <View style={[styles.input_box_select_option, styles.border_width, account==null ? theme.b_red : theme.b_green]}>
-        <Image source={WalletColor} style={styles.img_style}/>
+      <View style={[styles.input_box_select_option, styles.border_width, account==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
+        <ColorIcon icon='wallet' style={styles.img_style}/>
         <SelectDropdown
-          data={accounts}
+          data={data.accounts}
           onSelect={(selectedItem, index) => {
             setAccount(selectedItem)
           }}
@@ -87,7 +96,7 @@ export default function CreditForm({accounts, close, reload}) {
           }}
           defaultButtonText='Select Account'
           buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, theme.c1]}
+          buttonTextStyle={[styles.select_btn_text, account ? theme.c1 : gray]}
           selectedRowStyle={theme.bg1}
           selectedRowTextStyle={theme.c3}
           showsVerticalScrollIndicator
@@ -97,9 +106,9 @@ export default function CreditForm({accounts, close, reload}) {
       </View>
       
       <View style={[styles.input_box]}>
-        <Image source={CommentsColor} style={[styles.img_style, {marginLeft: 10}]}/>
+        <ColorIcon icon='comments' style={[styles.img_style, {marginLeft: 10}]}/>
         <TextInput 
-        placeholder="Comments"
+        placeholder="   Comments"
         placeholderTextColor='gray'
         value={comments}
         onChangeText={(comments) => setComments(comments)}
@@ -107,7 +116,7 @@ export default function CreditForm({accounts, close, reload}) {
         /> 
       </View>
       <Pressable style={[styles.input_box_select_option, account==null ? theme.b_red : theme.b_green]} onPress={()=>{setOpenDate(!openDate)}}>
-        <Image source={DateColor} style={styles.img_style}/>
+        <ColorIcon icon='calendar' style={styles.img_style}/>
         <View style={styles.date}><Text style={[styles.date_text, theme.c1]}>{date.toDateString()}</Text></View>
         <DatePicker date={date} onDateChange={setDate} modal={true} open={openDate}
         mode='date'
@@ -120,6 +129,29 @@ export default function CreditForm({accounts, close, reload}) {
           }}
           />
       </Pressable>
+      <View style={[styles.input_box_select_option]}>
+        <ColorIcon icon='mop' style={styles.img_style}/>
+        <SelectDropdown
+          data={mops}
+          onSelect={(selectedItem, index) => {
+            setMop(selectedItem)
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem.name
+          }}
+          rowTextForSelection={(item, index) => {
+            return item.name
+          }}
+          defaultButtonText='Select Mode'
+          buttonStyle={[styles.select_btn, theme.bg3]}
+          buttonTextStyle={[styles.select_btn_text, mop ? theme.c1 : gray]}
+          selectedRowStyle={theme.bg1}
+          selectedRowTextStyle={theme.c3}
+          showsVerticalScrollIndicator
+          rowStyle={{height: 50}}
+          rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+        />
+      </View>
       <View style={styles.btn_row}>
         {/* <TouchableOpacity style={[styles.deatailed_btn, theme.bg2]}>
           <Text style={[styles.deatailed_text, theme.c3]}>EXPAND</Text>
@@ -161,7 +193,7 @@ const styles = StyleSheet.create({
   },
   border_width: {
     borderWidth: 1,
-    borderStyle: 'dotted'
+    borderStyle: 'dashed'
   },
   input_text: {
     flex: 1,
@@ -175,6 +207,7 @@ const styles = StyleSheet.create({
   },
   rupee_text: {
     fontSize: 20,
+    paddingLeft: 15
   },
   bold: {
     fontWeight: '600'

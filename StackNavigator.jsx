@@ -12,6 +12,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
 import Signup from './src/screens/Signup'
 import AccountScreen from './src/screens/AccountScreen'
+import CreditcardScreen from './src/screens/CreditcardScreen'
+import DebitcardScreen from './src/screens/DebitcardScreen'
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator()
@@ -40,6 +42,8 @@ export default function StackNavigator() {
         <Stack.Screen name="Categories" component={Categories}/>
         <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="Cards" component={Cards}/>
+        <Stack.Screen name="Creditcard" component={CreditcardScreen}/>
+        <Stack.Screen name="Debitcard" component={DebitcardScreen}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Signup" component={Signup}/>
       </Stack.Group>

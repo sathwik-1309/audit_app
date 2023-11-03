@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: 320
   },
   label: {
-    height: 30,
+    height: 35,
     alignItems: 'flex-start',
     flexDirection: 'row',
     paddingTop: 2

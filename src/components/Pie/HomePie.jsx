@@ -18,7 +18,7 @@ export default function HomePie({drag, url_add}) {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = await getAuthToken()
-      let url = `${HOST_IP}/transactions/pie?auth_token=${authToken}&month=${month}&year=${year}`
+      let url = `${HOST_IP}/v1/transactions/pie?auth_token=${authToken}&month=${month}&year=${year}`
       if (url_add) {
         url = url + url_add
       }

@@ -78,7 +78,7 @@ export default function Settings() {
   const purple = Styles.purple
   const orange = Styles.orange
   const forest = Styles.forest
-  const lavender = Styles.lavender
+  const navy = Styles.navy
   const magenta = Styles.magenta
   const themes_array = [
     {
@@ -114,8 +114,8 @@ export default function Settings() {
       name: 'Pink'
     },
     {
-      style: lavender,
-      name: 'Lavender'
+      style: navy,
+      name: 'Navy'
     },
     {
       style: aqua,

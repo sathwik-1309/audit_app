@@ -70,7 +70,7 @@ export default function AccountScreen({route}) {
     }
   }
 
-  const comp_details = <AccountDetails id={id} acc_name={name} setHeader={setHeader} reload={reload}/>
+  const comp_details = <AccountDetails id={id} acc_name={name} setHeader={setHeader} drag={reload}/>
   const comp_category = <HomePie url_add={`&account_id=${id}`} drag={reload}/>
 
   const tr_api_payload = {

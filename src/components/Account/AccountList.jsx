@@ -36,7 +36,6 @@ export default function AccountList({drag}) {
     }else {
       seticonSource(AddIcon)
     }
-    
   }
 
   const handleReload = () => {
