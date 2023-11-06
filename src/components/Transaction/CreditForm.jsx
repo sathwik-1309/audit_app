@@ -65,7 +65,7 @@ export default function CreditForm({data, close, reload}) {
   let mops = account ? account.mops : []
 
   return (
-    <View style={[styles.container, theme.bg3]}>
+    <Pressable style={[styles.container, theme.bg3]}>
       {
         error != '' &&
         <Text style={{color: 'red', fontWeight: '500'}}>{error}</Text>
@@ -160,7 +160,7 @@ export default function CreditForm({data, close, reload}) {
           <Text style={[styles.deatailed_text, theme.c3]}>SAVE</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

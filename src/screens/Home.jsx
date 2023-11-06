@@ -15,6 +15,7 @@ import NavigationBar from '../components/NavigationBar';
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper';
 import AnalyticsParent from '../components/Transaction/AnalyticsParent';
 import axios from 'axios';
+import SplitForm from '../components/Transaction/SplitForm';
 
 function TransactionBoxItem({ type, theme, selected, setselected, data }) {
   const image_source = type == selected ? DownArrowColor : DownArrow;
@@ -31,10 +32,13 @@ function TransactionBoxItem({ type, theme, selected, setselected, data }) {
       form = <DebitForm data={data} close={setselected} />;
       break;
     case 'CREDIT':
-      form = <CreditForm data={data} close={setselected} />;
+      form = <CreditForm data={data} close={setselected}  />;
       break;
     case 'PAID BY PARTY':
       form = <PaidByPartyForm data={data} close={setselected} />;
+      break;
+    case 'SPLIT':
+      form = <SplitForm data={data} close={setselected}  />;
       break;
     default:
       break;
@@ -83,8 +87,9 @@ function TransactionBox({reload }) {
       </View>
       <View style={styles.body}>
         <TransactionBoxItem type='DEBIT' theme={theme} setselected={setselected} selected={selected} data={data} />
-        <TransactionBoxItem type='CREDIT' theme={theme} setselected={setselected} selected={selected} data={data} />
-        <TransactionBoxItem type='PAID BY PARTY' theme={theme} setselected={setselected} selected={selected} data={data} />
+        <TransactionBoxItem type='CREDIT' theme={theme} setselected={setselected} selected={selected} data={data}  />
+        <TransactionBoxItem type='PAID BY PARTY' theme={theme} setselected={setselected} selected={selected} data={data}  />
+        <TransactionBoxItem type='SPLIT' theme={theme} setselected={setselected} selected={selected} data={data}  />
       </View>
     </View>
   );

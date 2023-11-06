@@ -1,22 +1,59 @@
-import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Pressable } from 'react-native'
 import React, { useContext, useState } from 'react'
+import { View, Text, TextInput, Pressable, TouchableOpacity, StyleSheet } from 'react-native'
+import MultiSelect from 'react-native-multiple-select'
+import ThemeContext from '../Context/ThemeContext'
 import { Styles } from '../../Styles'
+import ColorIcon from '../ColorIcon'
 import SelectDropdown from 'react-native-select-dropdown'
-import WalletColor from '../../../assets/icons/wallet-color.png'
-import CategoryColor from '../../../assets/icons/category-color.png'
-import CommentsColor from '../../../assets/icons/comments-color.png'
-import DateColor from '../../../assets/icons/calendar-color.png'
-import MopIcon from '../../../assets/icons/mop-color.png'
 import DatePicker from 'react-native-date-picker'
 import { HOST_IP } from '../../config'
 import axios from 'axios'
 import { getAuthToken } from '../../util'
-import ThemeContext from '../Context/ThemeContext'
-import ColorIcon from '../ColorIcon'
 
-export default function DebitForm({ close, reload, data}) {
-  let { themeColor } = useContext(ThemeContext)
+function MultiSelectItem({item, onPress, selected}){
+  let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  return(
+    <Pressable style={[{borderRadius: 6, marginBottom: 2, height: 35, width: 180, alignItems: 'center', justifyContent: 'center'}, selected.map((item)=>item.id).includes(item.id) ? theme.bg1 : theme.bg3]} onPress={()=>onPress(item)}>
+      <Text style={[theme.c1, selected.map((item)=>item.id).includes(item.id) ? theme.c3 : theme.c1]}>{item.name}</Text>
+    </Pressable>
+  )
+}
+
+function PartyInputBox({data, selectedItems, setSelectedItems}){
+  let {themeColor} = useContext(ThemeContext)
+  const theme = Styles[themeColor]
+  const [amount, setAmount] = useState(null)
+  const gray = {
+    color: Styles.gray
+  }
+  const handleChange = (amount) => {
+    setSelectedItems((prevSelectedItems) => {
+      return prevSelectedItems.map((item) => {
+        if (item.id === data.id) {
+          item.amount = amount
+        }
+        return item
+      })
+    })
+  }
+  return(
+    <View style={[{flexDirection: 'row', height: 40, width: 180, alignItems: 'center'}, theme.bg2, styles.party_input_box]}>
+      <View style={{width: 120, paddingLeft: 20}}><Text style={[theme.c3]}>{data.name}</Text></View>
+      <TextInput 
+        placeholder="     ₹"
+        value={amount}
+        keyboardType="numeric"
+        onChangeText={handleChange}
+        style={[ theme.c3, styles.bold, {width: 60}]}
+        />  
+    </View>
+  )
+}
+
+export default function SplitForm({data, close}){
+  const [selectedItems, setSelectedItems] = useState([])
+  const [openSelect, setOpenSelect] = useState(false)
   const gray = {
     color: Styles.gray
   }
@@ -30,23 +67,35 @@ export default function DebitForm({ close, reload, data}) {
   const [error, setError] = useState('')
   const [mop, setMop] = useState(null)
   const [paymentType, setPaymentType] = useState('account')
-
-  async function handleCreate() {
-    if (amount=='') {
-      setError("Enter Amount")
+  const [userAmount, setUserAmount] = useState(null)
+  const handleSelect = (item) => {
+    if (selectedItems.map((item)=> item.id).includes(item.id)){
+      setSelectedItems(selectedItems.filter(x => x.id != item.id))
+    } else {
+      setSelectedItems([...selectedItems, item])
+    }
+  }
+  async function handleSave () {
+    if (!amount){
+      setError("Please enter total amount")
       return
     }
-    if (paymentType == 'account' && account == null) {
-      setError("Select an Account")
+    if (paymentType=='account' && account==null){
+      setError("Please select an Account")
       return
     }
-    if (paymentType == 'card' && card == null) {
-      setError("Select a Card")
+    if (paymentType=='card' && card==null){
+      setError("Please select a Card")
       return
     }
+    const sum = selectedItems.map((item)=>item.amount).reduce((acc, currentValue) => acc + parseInt(currentValue, 10), 0) + parseInt(userAmount,10)
     
+    if (amount != sum){
+      setError(`Total Amount (${amount}) does not match the split ${sum}`)
+      return
+    }
     const authToken = await getAuthToken()
-    const url = `${HOST_IP}/transactions/debit?auth_token=${authToken}`
+    const url = `${HOST_IP}/transactions/split?auth_token=${authToken}`
     let payload = {
       amount: amount,
       date: date
@@ -61,6 +110,17 @@ export default function DebitForm({ close, reload, data}) {
     if (category!=null) payload.sub_category_id = category.id
     if (comments!='') payload.comments = comments
     if (mop!=null) payload.mop_id = mop.id
+    const temp_arr = selectedItems.map((item)=>{
+      return ({
+        party: item.id,
+        amount: item.amount
+      })
+    })
+    const split = [...temp_arr, {
+      user: true,
+      amount: userAmount
+    }]
+    payload.transactions = split
     try {
       const response = await axios.post(url, payload)
       if(response.status == 200){
@@ -76,11 +136,13 @@ export default function DebitForm({ close, reload, data}) {
       setError(error.message)
     }
   }
-
   let mops = account ? account.mops : []
-
-  return (
-    <Pressable style={[styles.container, theme.bg3]}>
+  let {themeColor} = useContext(ThemeContext)
+  const theme = Styles[themeColor]
+  console.log(selectedItems)
+  
+  return(
+    <Pressable style={[theme.bg3, styles.container]}>
       <View style={[{flexDirection: 'row'}, theme.bg2, {marginVertical: 5, padding: 4, borderRadius: 4}]}>
         <Pressable style={[paymentType == 'account' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('account')}}><Text style={[theme.c3, styles.payment_btn_text]}>Account</Text></Pressable>
         <Pressable style={[paymentType == 'card' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('card')}}><Text style={[theme.c3, styles.payment_btn_text]}>Card</Text></Pressable>
@@ -221,11 +283,45 @@ export default function DebitForm({ close, reload, data}) {
           rowTextStyle={{fontSize: 14, fontWeight: '600'}}
         />
       </View>
+      <View style={{}}>
+        {
+          openSelect ? 
+          <View style={[ theme.bg3, {paddingVertical: 10, justifyContent: 'center', alignItems: 'center'}]} contentContainerStyle={{flex: 1}}>
+            <View style={[{height: 30, width: 160, justifyContent: 'center', alignItems: 'center', borderRadius: 6, marginBottom: 2}, theme.bg2]}><Text style={[theme.c3, {fontWeight: '600'}]}>Parties</Text></View>
+          {
+            data.parties.map((item, index)=>{
+              return(
+              <MultiSelectItem item={item} key={index} onPress={handleSelect} selected={selectedItems}/>
+              )
+            })
+          }
+          <TouchableOpacity style={[theme.bg2, {height: 30, width: 180, borderRadius: 6, alignItems: 'center', justifyContent: 'center'}]} onPress={()=>{setOpenSelect(false)}}><Text style={[{fontWeight: '500', fontSize: 13}, theme.c3]}>Submit</Text></TouchableOpacity>
+        </View> :
+
+        <Pressable style={[{height: 40, width: 180, alignItems: 'center', flexDirection: 'row'}]} onPress={()=>{setOpenSelect(true)}}>
+          <ColorIcon icon='user' style={{height: 25, width: 25}}/>
+          <Text style={[theme.c1, styles.label_text]}>Edit Parties</Text>
+        </Pressable>
+        }
+        
+      </View>
+      <View style={[{flexDirection: 'row', height: 40, width: 180, alignItems: 'center'}, theme.bg2, styles.party_input_box]}>
+        <View style={{width: 120, paddingLeft: 20}}><Text style={[theme.c3]}>Myself</Text></View>
+        <TextInput 
+          placeholder="     ₹"
+          value={userAmount}
+          keyboardType="numeric"
+          onChangeText={(userAmount) => setUserAmount(userAmount)}
+          style={[ theme.c3, styles.bold, {width: 60}]}
+          />  
+      </View>
+      {
+        selectedItems.map((item, index)=>{
+          return(<PartyInputBox data={item} key={index} selectedItems={selectedItems} setSelectedItems={setSelectedItems}/>)
+        })
+      }
       <View style={styles.btn_row}>
-        {/* <TouchableOpacity style={[styles.deatailed_btn, theme.bg2]}>
-          <Text style={[styles.deatailed_text, theme.c3]}>EXPAND</Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity style={[styles.save_btn, theme.bg1]} onPress={handleCreate}>
+        <TouchableOpacity style={[styles.save_btn, theme.bg1]} onPress={handleSave}>
           <Text style={[styles.deatailed_text, theme.c3]}>SAVE</Text>
         </TouchableOpacity>
       </View>
@@ -241,6 +337,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 2,
     width: 200
+  },
+  label_text: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 13,
+    fontWeight: '500',
+    paddingLeft: 10
   },
   input_box: {
     flexDirection: 'row',
@@ -339,5 +442,9 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 13
   },
-  
-})
+  party_input_box :{
+    borderRadius: 10,
+    marginBottom: 2
+  }
+}
+)
