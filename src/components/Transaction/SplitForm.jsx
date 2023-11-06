@@ -14,7 +14,7 @@ function MultiSelectItem({item, onPress, selected}){
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   return(
-    <Pressable style={[{borderRadius: 6, marginBottom: 2, height: 35, width: 180, alignItems: 'center', justifyContent: 'center'}, selected.map((item)=>item.id).includes(item.id) ? theme.bg1 : theme.bg3]} onPress={()=>onPress(item)}>
+    <Pressable style={[{borderRadius: 6, marginBottom: 2, height: 35, width: 180, alignItems: 'center', justifyContent: 'center'}, selected.map((item)=>item.id).includes(item.id) ? theme.bg2 : theme.bg3]} onPress={()=>onPress(item)}>
       <Text style={[theme.c1, selected.map((item)=>item.id).includes(item.id) ? theme.c3 : theme.c1]}>{item.name}</Text>
     </Pressable>
   )
@@ -287,7 +287,7 @@ export default function SplitForm({data, close}){
         {
           openSelect ? 
           <View style={[ theme.bg3, {paddingVertical: 10, justifyContent: 'center', alignItems: 'center'}]} contentContainerStyle={{flex: 1}}>
-            <View style={[{height: 30, width: 160, justifyContent: 'center', alignItems: 'center', borderRadius: 6, marginBottom: 2}, theme.bg2]}><Text style={[theme.c3, {fontWeight: '600'}]}>Parties</Text></View>
+            <View style={[{height: 30, width: 160, justifyContent: 'center', alignItems: 'center', borderRadius: 6, marginBottom: 2}]}><Text style={[theme.c1, {fontWeight: '600'}]}>Parties</Text></View>
           {
             data.parties.map((item, index)=>{
               return(
@@ -295,11 +295,11 @@ export default function SplitForm({data, close}){
               )
             })
           }
-          <TouchableOpacity style={[theme.bg2, {height: 30, width: 180, borderRadius: 6, alignItems: 'center', justifyContent: 'center'}]} onPress={()=>{setOpenSelect(false)}}><Text style={[{fontWeight: '500', fontSize: 13}, theme.c3]}>Submit</Text></TouchableOpacity>
+          <TouchableOpacity style={[theme.bg1, {height: 30, width: 180, borderRadius: 6, alignItems: 'center', justifyContent: 'center'}]} onPress={()=>{setOpenSelect(false)}}><Text style={[{fontWeight: '500', fontSize: 13}, theme.c3]}>Submit</Text></TouchableOpacity>
         </View> :
 
         <Pressable style={[{height: 40, width: 180, alignItems: 'center', flexDirection: 'row'}]} onPress={()=>{setOpenSelect(true)}}>
-          <ColorIcon icon='user' style={{height: 25, width: 25}}/>
+          <ColorIcon icon='user' style={{height: 25, width: 25, marginLeft: 10}}/>
           <Text style={[theme.c1, styles.label_text]}>Edit Parties</Text>
         </Pressable>
         }
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 13,
     fontWeight: '500',
-    paddingLeft: 10
+    paddingLeft: 30
   },
   input_box: {
     flexDirection: 'row',
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   party_input_box :{
-    borderRadius: 10,
+    borderRadius: 20,
     marginBottom: 2
   }
 }

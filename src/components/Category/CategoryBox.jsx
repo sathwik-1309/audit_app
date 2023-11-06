@@ -8,7 +8,8 @@ import ThemeContext from '../Context/ThemeContext'
 export default function CategoryBox({data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
-  const progress = 40
+  const progress = data.monthly.percentage
+  console.log(data)
   return (
     <TouchableOpacity style={[styles.container]}>
       <View style={[styles.account_box, {backgroundColor: data.color}]}>
@@ -17,8 +18,8 @@ export default function CategoryBox({data}) {
             {/* <Image source={CategoryIcon} style={{height: 25, width: 25}}/> */}
             <View style={{}}><Text style={[styles.name, theme.c3]}>{data.name}</Text></View>
           </View>
-          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Spent: <Text style={{fontWeight: '600', fontSize: 14}}>₹ 340</Text></Text></View>
-          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Subcategories: 3</Text></View>
+          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Spent: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.spent}</Text></Text></View>
+          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Subcategories: {data.sub_category_count}</Text></View>
           
           <View style={[styles.row2, theme.bg3]}>
             <View style={{flexDirection: 'row'}}>
@@ -26,7 +27,7 @@ export default function CategoryBox({data}) {
                 <View style={[{width: progress, height: 20, backgroundColor: data.color}]}></View>
                 <View style={[{width: 100-progress, height: 20, opacity: 0.5, backgroundColor: data.color}]}></View>
               </View>
-              <Text style={{color: data.color, fontWeight: '700', fontSize: 12, paddingLeft: 3}}>12%</Text>
+              <Text style={{color: data.color, fontWeight: '700', fontSize: 12, paddingLeft: 3}}>{data.monthly.percentage}%</Text>
             </View>
           </View>
         </View>

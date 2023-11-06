@@ -9,9 +9,9 @@ export default function TransactionBox2({data, index}) {
   const theme = Styles[themeColor]
   return (
     <View style={[theme.bg1, styles.box]}>
-      <View style={{height: 30, flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
         <View style={{paddingLeft: 10, width: 230}}><Text style={{fontSize: 12, fontWeight: '400'}}>{data.date}</Text></View>
-        <View>
+        <View style={{justifyContent: 'flex-end'}}>
           {
             data.category && 
             <View style={[styles.category, {backgroundColor: data.category.color}]}><Text style={[{fontSize: 10, fontWeight: '700'}, theme.c3]}>{data.sub_category}</Text></View>
@@ -46,12 +46,13 @@ const styles = StyleSheet.create({
   },
   category: {
     width: 60,
-    height: 18,
-    borderRadius: 10,
+    height: 20,
+    borderRadius: 15,
     borderWidth: 1,
     borderColor: 'white',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 5
   },
   opacity: {
     opacity: 0.9

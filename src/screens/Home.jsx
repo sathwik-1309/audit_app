@@ -60,14 +60,11 @@ function TransactionBoxItem({ type, theme, selected, setselected, data }) {
   );
 }
 
-function TransactionBox({reload }) {
+function TransactionBox({drag}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
-  const [selected, setselected] = useState('');
-  const [accounts, setAccounts] = useState(null);
-  const [parties, setParties] = useState(null);
-  const [categories, setCategories] = useState(null);
-  const [data, setData] = useState(null);
+  const [selected, setselected] = useState('')
+  const [data, setData] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +75,7 @@ function TransactionBox({reload }) {
     }
 
     fetchData();
-  }, [reload]);
+  }, [drag]);
 
   return (
     <View style={[styles.container, theme.bg2]}>
@@ -99,16 +96,16 @@ export default function Home() {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [refreshing, setRefreshing] = useState(false);
-  const [reload, setReload] = useState(0)
+  const [reload, setReload] = useState(1)
   const onRefresh = () => {
-    setRefreshing(true);
+    setRefreshing(true)
     setReload(reload+1)
-    setRefreshing(false);
+    setRefreshing(false)
   }
   const pages = [
     {
       name: 'Add New',
-      comp: <TransactionBox reload={reload}/>
+      comp: <TransactionBox drag={reload} />
     },
     {
       name: 'Transactions',
@@ -137,7 +134,7 @@ export default function Home() {
       >
         <View style={[styles.home]}>
           <NavigationBar pages={pages} cur_page={page} setPage={setPage}/>
-          {page.comp}
+          {reload && page.comp}
         </View>
       </ScrollView>
       <BottomBar />

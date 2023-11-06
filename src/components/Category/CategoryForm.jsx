@@ -18,6 +18,7 @@ export default function CategoryForm({reload, close, data}) {
   const [newCat, setNewCat] = useState(true)
   const [category, setCategory] = useState(null)
   const [color, setColor] = useState(null)
+  const [limit, setLimit] = useState(null)
   async function handleSubmit() {
     if (name == ''){
       setError("Enter Category Name")
@@ -39,6 +40,9 @@ export default function CategoryForm({reload, close, data}) {
       }
       payload.color = color.color
       payload.force = true
+    }
+    if (limit){
+      payload.monthly_limit = limit
     }
     const authToken = await getAuthToken()
     const url = `${HOST_IP}/sub_categories/create?auth_token=${authToken}`
@@ -105,30 +109,40 @@ export default function CategoryForm({reload, close, data}) {
       </View>
       {
         newCat &&
-        <View style={{flexDirection: 'row', marginBottom: 20}}>
-      <Image source={ColorPalette} style={styles.img_style}/>
-        <SelectDropdown
-          data={data.colors}
-          onSelect={(selectedItem, index) => {
-            setColor(selectedItem)
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem.name
-          }}
-          rowTextForSelection={(item, index) => {
-            return item.name
-          }}
-          defaultButtonText='Select Color'
-          buttonStyle={[styles.select_btn, {backgroundColor: color ? color.color : theme.bg2}]}
-          buttonTextStyle={[styles.select_btn_text, theme.c3]}
-          selectedRowStyle={theme.bg3}
-          selectedRowTextStyle={theme.c1}
-          showsVerticalScrollIndicator
-          rowStyle={{height: 50}}
-          rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+        <View style={{flexDirection: 'row'}}>
+          <Image source={ColorPalette} style={styles.img_style}/>
+          <SelectDropdown
+            data={data.colors}
+            onSelect={(selectedItem, index) => {
+              setColor(selectedItem)
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem.name
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.name
+            }}
+            defaultButtonText='Select Color'
+            buttonStyle={[styles.select_btn, {backgroundColor: color ? color.color : theme.bg2}]}
+            buttonTextStyle={[styles.select_btn_text, theme.c3]}
+            selectedRowStyle={theme.bg3}
+            selectedRowTextStyle={theme.c1}
+            showsVerticalScrollIndicator
+            rowStyle={{height: 50}}
+            rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+          />
+        </View>
+      }
+      <View style={[styles.input_box, {marginBottom: 10}]}>
+        <View style={{height: 40, width: 20, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 20}]}>₹</Text></View>
+        <TextInput 
+          placeholder=' Monthly Budget (Optional)'
+          value={limit}
+          onChangeText={(limit) => setLimit(limit)}
+          keyboardType="numeric"
+          style={styles.input_text}
         />
       </View>
-      }
       <View style={styles.button_row}>
         <TouchableOpacity style={[styles.button, theme.bg3]} onPress={handleSubmit}>
           <Text style={[styles.button_text, theme.c1]}>SAVE</Text>
