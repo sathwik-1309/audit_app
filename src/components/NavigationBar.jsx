@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext } from 'react'
 import ThemeContext from './Context/ThemeContext'
 import { Styles } from '../Styles'
@@ -17,6 +17,7 @@ export default function NavigationBar({pages, cur_page, setPage}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   return (
+    <ScrollView horizontal style={{marginHorizontal: 5}}>
     <View style={[styles.navigation_bar, theme.bg2]}>
       {
         pages.map((page, index)=>{
@@ -25,6 +26,7 @@ export default function NavigationBar({pages, cur_page, setPage}) {
         })
       }
     </View>
+    </ScrollView>
   )
 }
 
@@ -34,7 +36,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 4,
     marginBottom: 20,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    elevation: 5
   },
   navigation_bar_item: {
     borderRadius: 4,

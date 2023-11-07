@@ -2,8 +2,6 @@ import { RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Styles } from '../Styles'
 import BottomBar from '../components/BottomBar'
-import AccountList from '../components/Account/AccountList'
-import OwedList from '../components/Owed/OwedList'
 import ThemeContext from '../components/Context/ThemeContext'
 import Topbar from '../components/Topbar'
 import AccountDetails from '../components/Account/AccountDetails'
@@ -11,8 +9,10 @@ import HomePie from '../components/Pie/HomePie'
 import NavigationBar from '../components/NavigationBar'
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper'
 import AnalyticsParent from '../components/Transaction/AnalyticsParent'
+import CategoryDetails from '../components/Category/CategoryDetails'
+import SubcategoryList from '../components/Subcategory/SubcategoryList'
 
-export default function AccountScreen({route}) {
+export default function CategoryScreen({route}) {
   const { id, name } = route.params
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
@@ -26,16 +26,20 @@ export default function AccountScreen({route}) {
     setRefreshing(false);
   }
 
-  const comp_details = <AccountDetails id={id} acc_name={name} setHeader={setHeader} drag={reload}/>
-  const comp_category = <HomePie url_add={`&account_id=${id}`} drag={reload}/>
+  const comp_details = <CategoryDetails id={id} category_name={name} setHeader={setHeader} drag={reload}/>
+  const comp_category = <HomePie url_add={`&category_id=${id}`} drag={reload}/>
 
   const tr_api_payload = {
-    account_id: id
+    category_id: id
   }
   const pages = [
     {
       name: 'Details',
       comp: comp_details
+    },
+    {
+      name: 'Subcategory',
+      comp: <SubcategoryList payload={tr_api_payload} id={id}/>
     },
     {
       name: 'Transactions',

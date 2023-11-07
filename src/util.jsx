@@ -12,6 +12,7 @@ export const getAuthToken = async () => {
   try {
     const value = await AsyncStorage.getItem('auth_token')
     if (value !== null) {
+      console.log(value)
       return value
     }
     return value

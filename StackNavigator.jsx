@@ -14,6 +14,7 @@ import Signup from './src/screens/Signup'
 import AccountScreen from './src/screens/AccountScreen'
 import CreditcardScreen from './src/screens/CreditcardScreen'
 import DebitcardScreen from './src/screens/DebitcardScreen'
+import CategoryScreen from './src/screens/CategoryScreen'
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator()
@@ -40,6 +41,7 @@ export default function StackNavigator() {
         <Stack.Screen name="Accounts" component={Accounts}/>
         <Stack.Screen name="Account" component={AccountScreen}/>
         <Stack.Screen name="Categories" component={Categories}/>
+        <Stack.Screen name="Category" component={CategoryScreen}/>
         <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="Cards" component={Cards}/>
         <Stack.Screen name="Creditcard" component={CreditcardScreen}/>

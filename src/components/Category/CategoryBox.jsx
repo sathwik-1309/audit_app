@@ -4,14 +4,15 @@ import RightArrow from '../../../assets/icons/right-arrow-next.png'
 import CategoryIcon from '../../../assets/icons/category.png'
 import { Styles } from '../../Styles'
 import ThemeContext from '../Context/ThemeContext'
+import { useNavigation } from '@react-navigation/native'
 
 export default function CategoryBox({data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const progress = data.monthly.percentage
-  console.log(data)
+  const navigation = useNavigation()
   return (
-    <TouchableOpacity style={[styles.container]}>
+    <TouchableOpacity style={[styles.container]} onPress={()=>{navigation.navigate("Category", {id: data.id, name: data.name})}}>
       <View style={[styles.account_box, {backgroundColor: data.color}]}>
         <View style={[styles.details]}>
           <View style={[styles.row1]}>
@@ -19,7 +20,7 @@ export default function CategoryBox({data}) {
             <View style={{}}><Text style={[styles.name, theme.c3]}>{data.name}</Text></View>
           </View>
           <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Spent: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.spent}</Text></Text></View>
-          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Subcategories: {data.sub_category_count}</Text></View>
+          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Budget: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.budget}</Text></Text></View>
           
           <View style={[styles.row2, theme.bg3]}>
             <View style={{flexDirection: 'row'}}>
