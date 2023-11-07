@@ -105,6 +105,8 @@ export default function SplitForm({data, close}){
       payload.account_id = account.id
     }else if (card){
       payload.card_id = card.id
+    }else {
+      payload.cash = true
     }
 
     if (category!=null) payload.sub_category_id = category.id
@@ -146,6 +148,7 @@ export default function SplitForm({data, close}){
       <View style={[{flexDirection: 'row'}, theme.bg2, {marginVertical: 5, padding: 4, borderRadius: 4}]}>
         <Pressable style={[paymentType == 'account' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('account')}}><Text style={[theme.c3, styles.payment_btn_text]}>Account</Text></Pressable>
         <Pressable style={[paymentType == 'card' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('card')}}><Text style={[theme.c3, styles.payment_btn_text]}>Card</Text></Pressable>
+        <Pressable style={[paymentType == 'cash' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('cash')}}><Text style={[theme.c3, styles.payment_btn_text]}>Cash</Text></Pressable>
       </View>
       {
         error != '' &&
@@ -163,13 +166,40 @@ export default function SplitForm({data, close}){
         />  
       </View>
       {
-        paymentType == 'account' ?
+        paymentType == 'account' &&
         <View style={[styles.input_box_select_option, styles.border_width, account==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
-        <ColorIcon icon='wallet' style={styles.img_style}/>
+          <ColorIcon icon='wallet' style={styles.img_style}/>
+          <SelectDropdown
+            data={data.accounts}
+            onSelect={(selectedItem, index) => {
+              setAccount(selectedItem)
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem.name
+            }}
+            rowTextForSelection={(item, index) => {
+              return item.name
+            }}
+            defaultButtonText='Select Account'
+            buttonStyle={[styles.select_btn, theme.bg3]}
+            buttonTextStyle={[styles.select_btn_text, account ? theme.c1 : gray]}
+            selectedRowStyle={theme.bg1}
+            selectedRowTextStyle={theme.c3}
+            showsVerticalScrollIndicator
+            rowStyle={{height: 50}}
+            rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+          />
+        </View>
+      }
+
+      {
+        paymentType == 'card' &&
+        <View style={[styles.input_box_select_option, styles.border_width, card==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
+        <ColorIcon icon='card' style={styles.img_style}/>
         <SelectDropdown
-          data={data.accounts}
+          data={data.cards}
           onSelect={(selectedItem, index) => {
-            setAccount(selectedItem)
+            setCard(selectedItem)
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem.name
@@ -177,41 +207,16 @@ export default function SplitForm({data, close}){
           rowTextForSelection={(item, index) => {
             return item.name
           }}
-          defaultButtonText='Select Account'
+          defaultButtonText='Select Card        '
           buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, account ? theme.c1 : gray]}
+          buttonTextStyle={[styles.select_btn_text, card ? theme.c1 : gray]}
           selectedRowStyle={theme.bg1}
           selectedRowTextStyle={theme.c3}
           showsVerticalScrollIndicator
           rowStyle={{height: 50}}
           rowTextStyle={{fontSize: 14, fontWeight: '600'}}
         />
-      </View> :
-
-      <View style={[styles.input_box_select_option, styles.border_width, card==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
-      <ColorIcon icon='card' style={styles.img_style}/>
-      <SelectDropdown
-        data={data.cards}
-        onSelect={(selectedItem, index) => {
-          setCard(selectedItem)
-        }}
-        buttonTextAfterSelection={(selectedItem, index) => {
-          return selectedItem.name
-        }}
-        rowTextForSelection={(item, index) => {
-          return item.name
-        }}
-        defaultButtonText='Select Card        '
-        buttonStyle={[styles.select_btn, theme.bg3]}
-        buttonTextStyle={[styles.select_btn_text, card ? theme.c1 : gray]}
-        selectedRowStyle={theme.bg1}
-        selectedRowTextStyle={theme.c3}
-        showsVerticalScrollIndicator
-        rowStyle={{height: 50}}
-        rowTextStyle={{fontSize: 14, fontWeight: '600'}}
-      />
-      </View>
-
+        </View>
       }
       <View style={[styles.input_box_select_option, category==null ? theme.b_red : theme.b_green]}>
         <ColorIcon icon='category' style={styles.img_style}/>
@@ -260,7 +265,9 @@ export default function SplitForm({data, close}){
           }}
           />
       </Pressable>
-      <View style={[styles.input_box_select_option]}>
+      {
+        account &&
+        <View style={[styles.input_box_select_option]}>
         <ColorIcon icon='mop' style={styles.img_style}/>
         <SelectDropdown
           data={mops}
@@ -283,6 +290,8 @@ export default function SplitForm({data, close}){
           rowTextStyle={{fontSize: 14, fontWeight: '600'}}
         />
       </View>
+      }
+      
       <View style={{}}>
         {
           openSelect ? 
@@ -432,15 +441,15 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   payment_btn: {
-    width: 70,
+    width: 60,
     height: 25,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4
   },
   payment_btn_text: {
-    fontWeight: '400',
-    fontSize: 13
+    fontWeight: '500',
+    fontSize: 12
   },
   party_input_box :{
     borderRadius: 20,

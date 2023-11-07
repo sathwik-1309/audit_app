@@ -15,6 +15,7 @@ import AccountScreen from './src/screens/AccountScreen'
 import CreditcardScreen from './src/screens/CreditcardScreen'
 import DebitcardScreen from './src/screens/DebitcardScreen'
 import CategoryScreen from './src/screens/CategoryScreen'
+import OwedScreen from './src/screens/OwedScreen'
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator()
@@ -40,6 +41,7 @@ export default function StackNavigator() {
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="Accounts" component={Accounts}/>
         <Stack.Screen name="Account" component={AccountScreen}/>
+        <Stack.Screen name="Owed" component={OwedScreen}/>
         <Stack.Screen name="Categories" component={Categories}/>
         <Stack.Screen name="Category" component={CategoryScreen}/>
         <Stack.Screen name="Settings" component={Settings}/>

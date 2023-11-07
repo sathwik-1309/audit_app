@@ -14,7 +14,7 @@ import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
 import ColorIcon from '../ColorIcon'
 
-export default function DebitForm({ close, reload, data}) {
+export default function SettledByPartyForm({ close, party, data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const gray = {
@@ -40,22 +40,17 @@ export default function DebitForm({ close, reload, data}) {
       setError("Select an Account")
       return
     }
-    if (paymentType == 'card' && card == null) {
-      setError("Select a Card")
-      return
-    }
     
     const authToken = await getAuthToken()
-    const url = `${HOST_IP}/transactions/debit?auth_token=${authToken}`
+    const url = `${HOST_IP}/transactions/settled_by_party?auth_token=${authToken}`
     let payload = {
       amount: amount,
-      date: date
+      date: date,
+      party: party
     }
 
     if (account) {
       payload.account_id = account.id
-    }else if (card){
-      payload.card_id = card.id
     }else {
       payload.cash = true
     }
@@ -68,7 +63,7 @@ export default function DebitForm({ close, reload, data}) {
       if(response.status == 200){
         setError('')
         close('')
-        reload()
+        
       }else if (response.status == 202){
         setError(response.data.message)
       }else {
@@ -85,7 +80,6 @@ export default function DebitForm({ close, reload, data}) {
     <Pressable style={[styles.container, theme.bg3]}>
       <View style={[{flexDirection: 'row'}, theme.bg2, {marginVertical: 5, padding: 4, borderRadius: 4}]}>
         <Pressable style={[paymentType == 'account' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('account')}}><Text style={[theme.c3, styles.payment_btn_text]}>Account</Text></Pressable>
-        <Pressable style={[paymentType == 'card' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('card')}}><Text style={[theme.c3, styles.payment_btn_text]}>Card</Text></Pressable>
         <Pressable style={[paymentType == 'cash' ? theme.bg1 : theme.bg2, styles.payment_btn]} onPress={()=>{setPaymentType('cash')}}><Text style={[theme.c3, styles.payment_btn_text]}>Cash</Text></Pressable>
       </View>
       {
@@ -129,55 +123,7 @@ export default function DebitForm({ close, reload, data}) {
         />
       </View>
       }
-      {
-        paymentType == 'card' &&
-        <View style={[styles.input_box_select_option, styles.border_width, card==null ? {borderColor: theme.c1.color} : {borderColor: 'white'}]}>
-          <ColorIcon icon='card' style={styles.img_style}/>
-          <SelectDropdown
-            data={data.cards}
-            onSelect={(selectedItem, index) => {
-              setCard(selectedItem)
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem.name
-            }}
-            rowTextForSelection={(item, index) => {
-              return item.name
-            }}
-            defaultButtonText='Select Card        '
-            buttonStyle={[styles.select_btn, theme.bg3]}
-            buttonTextStyle={[styles.select_btn_text, card ? theme.c1 : gray]}
-            selectedRowStyle={theme.bg1}
-            selectedRowTextStyle={theme.c3}
-            showsVerticalScrollIndicator
-            rowStyle={{height: 50}}
-            rowTextStyle={{fontSize: 14, fontWeight: '600'}}
-          />
-        </View>
-      }
-      <View style={[styles.input_box_select_option, category==null ? theme.b_red : theme.b_green]}>
-        <ColorIcon icon='category' style={styles.img_style}/>
-        <SelectDropdown
-          data={data.sub_categories}
-          onSelect={(selectedItem, index) => {
-            setCategory(selectedItem)
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem.name
-          }}
-          rowTextForSelection={(item, index) => {
-            return item.name
-          }}
-          defaultButtonText='Select Category'
-          buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, category ? theme.c1 : gray]}
-          selectedRowStyle={theme.bg1}
-          selectedRowTextStyle={theme.c3}
-          showsVerticalScrollIndicator
-          rowStyle={{height: 50}}
-          rowTextStyle={{fontSize: 14, fontWeight: '600'}}
-        />
-      </View>
+      
       <View style={[styles.input_box]}>
         <ColorIcon icon='comments' style={[styles.img_style, {marginLeft: 10}]}/>
         <TextInput 
@@ -203,7 +149,7 @@ export default function DebitForm({ close, reload, data}) {
           />
       </Pressable>
       {
-        account && 
+        account &&
         <View style={[styles.input_box_select_option]}>
         <ColorIcon icon='mop' style={styles.img_style}/>
         <SelectDropdown
@@ -226,7 +172,7 @@ export default function DebitForm({ close, reload, data}) {
           rowStyle={{height: 50}}
           rowTextStyle={{fontSize: 14, fontWeight: '600'}}
         />
-        </View>
+      </View>
       }
       
       <View style={styles.btn_row}>
