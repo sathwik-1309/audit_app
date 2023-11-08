@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginVertical: 2,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5
   },
   ttype: {
     borderRadius: 10,

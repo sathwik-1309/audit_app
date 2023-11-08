@@ -14,7 +14,7 @@ import { getAuthToken } from '../../util'
 import ThemeContext from '../Context/ThemeContext'
 import ColorIcon from '../ColorIcon'
 
-export default function DebitForm({ close, reload, data}) {
+export default function SettledByYouForm({ close, party, data}) {
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const gray = {
@@ -46,10 +46,11 @@ export default function DebitForm({ close, reload, data}) {
     }
     
     const authToken = await getAuthToken()
-    const url = `${HOST_IP}/transactions/debit?auth_token=${authToken}`
+    const url = `${HOST_IP}/transactions/settled_by_you?auth_token=${authToken}`
     let payload = {
       amount: amount,
-      date: date
+      date: date,
+      party: party
     }
 
     if (account) {
@@ -68,7 +69,7 @@ export default function DebitForm({ close, reload, data}) {
       if(response.status == 200){
         setError('')
         close('')
-        reload()
+        
       }else if (response.status == 202){
         setError(response.data.message)
       }else {
@@ -155,29 +156,7 @@ export default function DebitForm({ close, reload, data}) {
           />
         </View>
       }
-      <View style={[styles.input_box_select_option, category==null ? theme.b_red : theme.b_green]}>
-        <ColorIcon icon='category' style={styles.img_style}/>
-        <SelectDropdown
-          data={data.sub_categories}
-          onSelect={(selectedItem, index) => {
-            setCategory(selectedItem)
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem.name
-          }}
-          rowTextForSelection={(item, index) => {
-            return item.name
-          }}
-          defaultButtonText='Select Category'
-          buttonStyle={[styles.select_btn, theme.bg3]}
-          buttonTextStyle={[styles.select_btn_text, category ? theme.c1 : gray]}
-          selectedRowStyle={theme.bg1}
-          selectedRowTextStyle={theme.c3}
-          showsVerticalScrollIndicator
-          rowStyle={{height: 50}}
-          rowTextStyle={{fontSize: 14, fontWeight: '600'}}
-        />
-      </View>
+      
       <View style={[styles.input_box]}>
         <ColorIcon icon='comments' style={[styles.img_style, {marginLeft: 10}]}/>
         <TextInput 
@@ -203,7 +182,7 @@ export default function DebitForm({ close, reload, data}) {
           />
       </Pressable>
       {
-        account && 
+        account &&
         <View style={[styles.input_box_select_option]}>
         <ColorIcon icon='mop' style={styles.img_style}/>
         <SelectDropdown
@@ -226,7 +205,7 @@ export default function DebitForm({ close, reload, data}) {
           rowStyle={{height: 50}}
           rowTextStyle={{fontSize: 14, fontWeight: '600'}}
         />
-        </View>
+      </View>
       }
       
       <View style={styles.btn_row}>

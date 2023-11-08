@@ -14,6 +14,9 @@ import Signup from './src/screens/Signup'
 import AccountScreen from './src/screens/AccountScreen'
 import CreditcardScreen from './src/screens/CreditcardScreen'
 import DebitcardScreen from './src/screens/DebitcardScreen'
+import CategoryScreen from './src/screens/CategoryScreen'
+import OwedScreen from './src/screens/OwedScreen'
+import TransactionScreen from './src/screens/TransactionScreen'
 
 export default function StackNavigator() {
   const Stack = createNativeStackNavigator()
@@ -39,11 +42,14 @@ export default function StackNavigator() {
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="Accounts" component={Accounts}/>
         <Stack.Screen name="Account" component={AccountScreen}/>
+        <Stack.Screen name="Owed" component={OwedScreen}/>
         <Stack.Screen name="Categories" component={Categories}/>
+        <Stack.Screen name="Category" component={CategoryScreen}/>
         <Stack.Screen name="Settings" component={Settings}/>
         <Stack.Screen name="Cards" component={Cards}/>
         <Stack.Screen name="Creditcard" component={CreditcardScreen}/>
         <Stack.Screen name="Debitcard" component={DebitcardScreen}/>
+        <Stack.Screen name="Transaction" component={TransactionScreen}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="Signup" component={Signup}/>
       </Stack.Group>

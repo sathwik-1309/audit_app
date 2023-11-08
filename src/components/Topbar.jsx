@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    borderColor: 'black'
+    borderColor: 'black',
   },
   header: {
     flex: 1,

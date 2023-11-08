@@ -2,17 +2,13 @@ import { RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Styles } from '../Styles'
 import BottomBar from '../components/BottomBar'
-import AccountList from '../components/Account/AccountList'
-import OwedList from '../components/Owed/OwedList'
 import ThemeContext from '../components/Context/ThemeContext'
 import Topbar from '../components/Topbar'
-import AccountDetails from '../components/Account/AccountDetails'
-import HomePie from '../components/Pie/HomePie'
 import NavigationBar from '../components/NavigationBar'
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper'
-import AnalyticsParent from '../components/Transaction/AnalyticsParent'
+import OwedDetails from '../components/Owed/OwedDetails'
 
-export default function AccountScreen({route}) {
+export default function OwedScreen({route}) {
   const { id, name } = route.params
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
@@ -26,28 +22,17 @@ export default function AccountScreen({route}) {
     setRefreshing(false);
   }
 
-  const comp_details = <AccountDetails id={id} acc_name={name} setHeader={setHeader} drag={reload}/>
-  const comp_category = <HomePie url_add={`&account_id=${id}`} drag={reload}/>
-
   const tr_api_payload = {
-    account_id: id
+    party: id
   }
   const pages = [
     {
       name: 'Details',
-      comp: comp_details
+      comp: <OwedDetails id={id} acc_name={name} setHeader={setHeader} drag={reload}/>
     },
     {
       name: 'Transactions',
       comp: <TransactionListWrapper payload={tr_api_payload}/>
-    },
-    {
-      name: 'Split',
-      comp: comp_category
-    },
-    {
-      name: 'Analytics',
-      comp: <AnalyticsParent drag={reload} payload={tr_api_payload}/>
     }
   ]
   const [page, setPage] = useState(pages[0])

@@ -1,17 +1,33 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext } from 'react'
 import { Styles } from '../../Styles'
 import ThemeContext from '../Context/ThemeContext'
-
+import AccountIcon from '../../../assets/icons/wallet.png'
+import CashIcon from '../../../assets/icons/dollar.png'
+import CardIcon from '../../../assets/icons/card.png'
+import { useNavigation } from '@react-navigation/native'
 
 export default function TransactionBox2({data, index}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  const navigation = useNavigation()
+  let icon
+  switch (data.payment_symbol.symbol){
+    case 'account':
+      icon = AccountIcon
+      break
+    case 'cash':
+      icon = CashIcon
+      break
+    case 'card':
+      icon = CardIcon
+      break
+  }
   return (
-    <View style={[theme.bg1, styles.box]}>
-      <View style={{height: 30, flexDirection: 'row', alignItems: 'center' }}>
+    <TouchableOpacity style={[theme.bg1, styles.box]} onPress={()=>navigation.navigate("Transaction", {data: data})}>
+      <View style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
         <View style={{paddingLeft: 10, width: 230}}><Text style={{fontSize: 12, fontWeight: '400'}}>{data.date}</Text></View>
-        <View>
+        <View style={{justifyContent: 'flex-end'}}>
           {
             data.category && 
             <View style={[styles.category, {backgroundColor: data.category.color}]}><Text style={[{fontSize: 10, fontWeight: '700'}, theme.c3]}>{data.sub_category}</Text></View>
@@ -24,10 +40,11 @@ export default function TransactionBox2({data, index}) {
         
       </View>
       <View style={{flexDirection: 'row', height: 30, alignItems: 'center'}}>
-        <View style={{width: 250, paddingLeft: 20}}><Text style={[theme.c3, styles.comments_text]}>{data.comments}</Text></View>
-        <View style={{width: 100, justifyContent: 'center'}}><Text style={{fontSize: 10, fontWeight: '500'}}>{data.ttype.toUpperCase()}</Text></View>
+        <View style={{width: 220, paddingLeft: 20}}><Text style={[theme.c3, styles.comments_text]}>{data.comments}</Text></View>
+        <View style={{width: 15, height: 30, justifyContent: 'center'}}><Image style={{width: 15, height: 15}} source={icon}/></View>
+        <View style={{width: 65, justifyContent: 'center', paddingLeft: 4}}><Text style={[{fontSize: 9, fontWeight: '500'}, theme.c3]}>{data.payment_symbol.name}</Text></View>
       </View>
-      </View>
+    </TouchableOpacity>
   )
 }
 
@@ -41,17 +58,18 @@ const styles = StyleSheet.create({
     height: 20
   },
   comments_text: {
-    fontSize: 13,
+    fontSize: 12,
     fontWeight: '400'
   },
   category: {
     width: 60,
-    height: 18,
-    borderRadius: 10,
+    height: 20,
+    borderRadius: 15,
     borderWidth: 1,
     borderColor: 'white',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 5
   },
   opacity: {
     opacity: 0.9
