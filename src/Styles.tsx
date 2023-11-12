@@ -271,5 +271,6 @@ const forest = StyleSheet.create({
 })
 
 const gray = '#808080'
+const lightgray = 'lightgray'
 
-export const Styles = {orange, sea, midnight, ruby, purple, navy, aqua, pink, magenta, forest, gray}
+export const Styles = {orange, sea, midnight, ruby, purple, navy, aqua, pink, magenta, forest, gray, lightgray}

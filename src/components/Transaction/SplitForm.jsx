@@ -42,6 +42,7 @@ function PartyInputBox({data, selectedItems, setSelectedItems}){
       <View style={{width: 120, paddingLeft: 20}}><Text style={[theme.c3]}>{data.name}</Text></View>
       <TextInput 
         placeholder="     ₹"
+        placeholderTextColor={Styles.lightgray}
         value={amount}
         keyboardType="numeric"
         onChangeText={handleChange}
@@ -318,6 +319,7 @@ export default function SplitForm({data, close}){
         <View style={{width: 120, paddingLeft: 20}}><Text style={[theme.c3]}>Myself</Text></View>
         <TextInput 
           placeholder="     ₹"
+          placeholderTextColor={Styles.lightgray}
           value={userAmount}
           keyboardType="numeric"
           onChangeText={(userAmount) => setUserAmount(userAmount)}

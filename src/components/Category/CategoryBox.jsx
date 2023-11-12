@@ -19,8 +19,8 @@ export default function CategoryBox({data}) {
             {/* <Image source={CategoryIcon} style={{height: 25, width: 25}}/> */}
             <View style={{}}><Text style={[styles.name, theme.c3]}>{data.name}</Text></View>
           </View>
-          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Spent: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.spent}</Text></Text></View>
-          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Budget: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.budget}</Text></Text></View>
+          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Spent: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.formatted_spent}</Text></Text></View>
+          <View style={{height: 25, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 13, fontWeight: '500'}]}>Budget: <Text style={{fontWeight: '600', fontSize: 14}}>₹ {data.monthly.formatted_budget}</Text></Text></View>
           
           <View style={[styles.row2, theme.bg3]}>
             <View style={{flexDirection: 'row'}}>
@@ -41,13 +41,19 @@ export default function CategoryBox({data}) {
 const styles = StyleSheet.create({
   container: {
     marginRight: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    overflow: 'hidden',
+    borderRadius: 10,
   },
   account_box: {
-    borderRadius: 10,
     flexDirection: 'row',
     marginVertical: 6,
     elevation: 5,
-    overflow: 'hidden'
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   details: {
     width: 140,

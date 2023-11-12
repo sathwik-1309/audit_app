@@ -2,9 +2,10 @@ import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'reac
 import React, { useContext } from 'react'
 import { Styles } from '../../Styles'
 import ThemeContext from '../Context/ThemeContext'
-import AccountIcon from '../../../assets/icons/wallet.png'
+import AccountIcon from '../../../assets/icons/wallet-image.png'
 import CashIcon from '../../../assets/icons/dollar.png'
-import CardIcon from '../../../assets/icons/card.png'
+import CardIcon from '../../../assets/icons/card-image.png'
+import PartyIcon from '../../../assets/icons/party-image.png'
 import { useNavigation } from '@react-navigation/native'
 
 export default function TransactionBox2({data, index}) {
@@ -22,21 +23,24 @@ export default function TransactionBox2({data, index}) {
     case 'card':
       icon = CardIcon
       break
+    case 'party':
+      icon = PartyIcon
+      break
   }
   return (
     <TouchableOpacity style={[theme.bg1, styles.box]} onPress={()=>navigation.navigate("Transaction", {data: data})}>
       <View style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
-        <View style={{paddingLeft: 10, width: 230}}><Text style={{fontSize: 12, fontWeight: '400'}}>{data.date}</Text></View>
+        <View style={{paddingLeft: 10, width: 230}}><Text style={{fontSize: 12, fontWeight: '500', color: Styles.lightgray}}>{data.date_text}</Text></View>
         <View style={{justifyContent: 'flex-end'}}>
           {
-            data.category && 
-            <View style={[styles.category, {backgroundColor: data.category.color}]}><Text style={[{fontSize: 10, fontWeight: '700'}, theme.c3]}>{data.sub_category}</Text></View>
+            data.category &&
+            <View style={[styles.category, {backgroundColor: data.category.color}]}><Text style={[{fontSize: 10, fontWeight: '900'}, theme.c3]}>{data.sub_category}</Text></View>
           }
         </View>
       </View>
       <View style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
         <View style={{paddingLeft: 20, width: 140}}><Text style={[theme.c3, {fontWeight: '700', fontSize: 16}]}>{data.signed_amount}</Text></View>
-        <View><Text style={{fontSize: 11, fontWeight: '400'}}>Balance <Text style={[theme.c3, {fontSize: 12, fontWeight: '500'}]}>₹ {data.balance_after}</Text></Text></View>
+        <View><Text style={{fontSize: 11, fontWeight: '400', color: Styles.lightgray}}>Balance <Text style={[theme.c3, {fontSize: 12, fontWeight: '500'}]}>₹ {data.balance_after ? data.balance_after : data.o_balance_after}</Text></Text></View>
         
       </View>
       <View style={{flexDirection: 'row', height: 30, alignItems: 'center'}}>

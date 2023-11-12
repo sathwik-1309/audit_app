@@ -18,7 +18,7 @@ function BottomBarItem({data}) {
     case 'Accounts':
       icon = 'wallet'
       break
-    case 'Categories':
+    case 'Category':
       icon = 'category'
       break
     case 'Cards':
@@ -31,8 +31,9 @@ function BottomBarItem({data}) {
       icon = 'owed'
       break
   }
+  const navigate_to = data == 'Category' ? 'Categories' : data
   return (
-    <TouchableOpacity style={styles.BottomBarItem} onPress={()=>{navigation.navigate(data)}}>
+    <TouchableOpacity style={styles.BottomBarItem} onPress={()=>{navigation.navigate(navigate_to)}}>
       <Icon icon={icon}/>
       <Text style={[styles.text, theme.c3]}>{data}</Text>
     </TouchableOpacity>
@@ -47,7 +48,7 @@ export default function BottomBar() {
       <BottomBarItem data='Home'/>
       <BottomBarItem data='Accounts'/>
       <BottomBarItem data='Cards'/>
-      <BottomBarItem data='Categories'/>
+      <BottomBarItem data='Category'/>
       <BottomBarItem data='Settings'/>
     </View>
   )
@@ -59,7 +60,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    elevation: 4
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   BottomBarItem: {
     height: 50,

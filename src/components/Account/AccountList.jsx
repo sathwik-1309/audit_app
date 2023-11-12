@@ -57,8 +57,8 @@ export default function AccountList({drag}) {
       <View style={styles.body}>
         {
           data &&
-          data.map((account, index)=>{
-            return(<AccountBox data={account} key={index}/>)
+          data.accounts.map((account, index)=>{
+            return(<AccountBox data={account} key={index} lock={data.lock}/>)
           })
         }
       </View>

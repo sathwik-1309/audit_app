@@ -102,6 +102,7 @@ export default function CategoryForm({reload, close, data}) {
         <Image source={newCat ? CategoryIcon : SubCatIcon} style={{height: 25, width: 25}}/>
         <TextInput 
         placeholder={`${newCat ? 'Category' : 'Subcategory'} Name`}
+        placeholderTextColor={Styles.lightgray}
         value={name}
         onChangeText={(name) => setName(name)}
         style={styles.input_text}
@@ -137,6 +138,7 @@ export default function CategoryForm({reload, close, data}) {
         <View style={{height: 40, width: 20, justifyContent: 'center', alignItems: 'center'}}><Text style={[theme.c3, {fontSize: 20}]}>₹</Text></View>
         <TextInput 
           placeholder=' Monthly Budget (Optional)'
+          placeholderTextColor={Styles.lightgray}
           value={limit}
           onChangeText={(limit) => setLimit(limit)}
           keyboardType="numeric"
@@ -159,7 +161,8 @@ const styles = StyleSheet.create({
   },
   input_text: {
     width: 200,
-    paddingLeft: 10
+    paddingLeft: 10,
+    color: 'white'
   },
   rupee: {
     justifyContent: 'center',

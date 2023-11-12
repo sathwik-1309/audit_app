@@ -53,6 +53,7 @@ export default function Login() {
         <View style={styles.input_box}>
           <TextInput 
           placeholder="Enter Email"
+          placeholderTextColor={Styles.lightgray}
           value={email}
           onChangeText={(email) => setEmail(email)}
           style={styles.input_text}
@@ -61,6 +62,7 @@ export default function Login() {
         <View style={styles.input_box}>
           <TextInput 
           placeholder="Enter Password"
+          placeholderTextColor={Styles.lightgray}
           value={password}
           onChangeText={(password) => setPassword(password)}
           style={styles.input_text}
@@ -73,7 +75,7 @@ export default function Login() {
           </TouchableOpacity>
         </View>
         <View style={{marginTop: 20}}>
-          <Text>Dont have an account?</Text>
+          <Text style={styles.label_text}>Dont have an account?</Text>
           <Pressable onPress={()=>navigation.navigate('Signup')}><Text style={{color: 'lightblue'}}>Sign up</Text></Pressable>
         </View>
       </View>
@@ -125,6 +127,11 @@ const styles = StyleSheet.create({
     fontWeight: '600'
   },
   input_text: {
-    paddingLeft: 10
+    paddingLeft: 10,
+    color: 'white',
+    height: 40
+  },
+  label_text: {
+    color: 'lightgray'
   }
 })

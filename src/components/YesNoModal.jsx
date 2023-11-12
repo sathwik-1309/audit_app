@@ -10,7 +10,7 @@ const YesNoModal = ({ isVisible, onYes, onNo, message }) => {
   return (
     <Modal isVisible={isVisible}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{marginVertical: 30}}><Text style={styles.message_text}>{message}</Text></View>
+        <View style={{marginVertical: 30}}><Text style={[styles.message_text, {color: Styles.lightgray}]}>{message}</Text></View>
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity onPress={onYes} style={[styles.btn, theme.bg1]}>
             <Text style={[styles.btn_text, theme.c3]}>Yes</Text>

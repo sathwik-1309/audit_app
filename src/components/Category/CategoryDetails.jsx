@@ -64,7 +64,7 @@ function DetailBox1({data, category_name, id, setHeader}) {
             
           </View>
           <View style={[styles.input_box, theme.bg1]}>
-            <View style={{width: 70, paddingLeft: 10}}><Text style={{fontWeight: '600', fontSize: 12}}>Budget (M)</Text></View>
+            <View style={{width: 70, paddingLeft: 10}}><Text style={{fontWeight: '600', fontSize: 12, color: Styles.lightgray}}>Budget (M)</Text></View>
             {
               edit ? 
               <TextInput
@@ -73,12 +73,12 @@ function DetailBox1({data, category_name, id, setHeader}) {
                 keyboardType="numeric"
                 onChangeText={(monthLimit) => setMonthLimit(monthLimit)}
               /> :
-              <Text style={[styles.value, theme.c3]}>₹ {data && data.details.monthly_limit}</Text>
+              <Text style={[styles.value, theme.c3]}>₹ {data && data.details.formatted_monthly_limit}</Text>
             }
             
           </View>
           <View style={[styles.input_box, theme.bg1]}>
-            <View style={{width: 70, paddingLeft: 10}}><Text style={{fontWeight: '600', fontSize: 12}}>Budget (Y)</Text></View>
+            <View style={{width: 70, paddingLeft: 10}}><Text style={{fontWeight: '600', fontSize: 12, color: Styles.lightgray}}>Budget (Y)</Text></View>
             {
               edit ? 
               <TextInput
@@ -87,7 +87,7 @@ function DetailBox1({data, category_name, id, setHeader}) {
                 keyboardType="numeric"
                 onChangeText={(yearLimit) => setYearLimit(yearLimit)}
               /> :
-              <Text style={[styles.value, theme.c3]}>₹ {data && data.details.yearly_limit}</Text>
+              <Text style={[styles.value, theme.c3]}>₹ {data && data.details.formatted_yearly_limit}</Text>
             }
             
           </View>
@@ -194,11 +194,11 @@ export default function CategoryDetails({id, category_name, setHeader, drag}) {
           <View style={[styles.header, theme.bg2]}><Text style={[styles.header_text, theme.c3]}>Monthly Budget</Text></View>
           <View style={[styles.input_box, theme.bg1]}>
             <View style={{width: 70, paddingLeft: 10}}><Text style={styles.label}>Target</Text></View>
-            <Text style={[styles.value, theme.c3]}>₹ {data.monthly.budget}</Text>
+            <Text style={[styles.value, theme.c3]}>₹ {data.monthly.formatted_budget}</Text>
           </View>
           <View style={[styles.input_box, theme.bg1]}>
             <View style={{width: 70, paddingLeft: 10}}><Text style={[styles.label]}>Spent</Text></View>
-            <Text style={[styles.value, theme.c3]}>₹ {data.monthly.spent}</Text>
+            <Text style={[styles.value, theme.c3]}>₹ {data.monthly.formatted_spent}</Text>
           </View>
         </View>
         
@@ -220,11 +220,11 @@ export default function CategoryDetails({id, category_name, setHeader, drag}) {
           <View style={[styles.header, theme.bg2]}><Text style={[styles.header_text, theme.c3]}>Yearly Budget</Text></View>
           <View style={[styles.input_box, theme.bg1]}>
             <View style={{width: 70, paddingLeft: 10}}><Text style={styles.label}>Target</Text></View>
-            <Text style={[styles.value, theme.c3]}>₹ {data.yearly.budget}</Text>
+            <Text style={[styles.value, theme.c3]}>₹ {data.yearly.formatted_budget}</Text>
           </View>
           <View style={[styles.input_box, theme.bg1]}>
             <View style={{width: 70, paddingLeft: 10}}><Text style={[styles.label]}>Spent</Text></View>
-            <Text style={[styles.value, theme.c3]}>₹ {data.yearly.spent}</Text>
+            <Text style={[styles.value, theme.c3]}>₹ {data.yearly.formatted_spent}</Text>
           </View>
         </View>
         
@@ -268,7 +268,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: 260,
     marginBottom: 30,
-    elevation: 5
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   header: {
     height: 40,
@@ -293,7 +297,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
-    fontSize: 14
+    fontSize: 14,
+    color: Styles.lightgray
   },
   value: {
     paddingLeft: 6,
@@ -306,7 +311,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: 'white',
-    width: 180
+    width: 180,
+    height: 38,
+    color: 'white',
+    paddingLeft: 5
   },
   save_btn: {
     paddingHorizontal: 15,

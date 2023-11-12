@@ -37,7 +37,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginBottom: 20,
     paddingHorizontal: 5,
-    elevation: 5
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   navigation_bar_item: {
     borderRadius: 4,

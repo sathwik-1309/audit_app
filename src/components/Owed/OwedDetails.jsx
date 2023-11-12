@@ -180,7 +180,11 @@ const styles = StyleSheet.create({
     width: 260,
     borderRadius: 12,
     padding: 12,
-    elevation: 2
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   tb_header: {
     flexDirection: 'row',
@@ -221,7 +225,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
-    fontSize: 14
+    fontSize: 14,
+    color: Styles.lightgray
   },
   value: {
     paddingLeft: 6,
@@ -234,7 +239,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: 'white',
-    width: 180
+    width: 180,
+    height: 38,
+    paddingLeft: 5,
+    color: 'white'
   },
   save_btn: {
     paddingHorizontal: 15,

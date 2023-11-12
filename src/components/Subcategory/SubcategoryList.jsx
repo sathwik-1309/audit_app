@@ -13,8 +13,8 @@ function SubcategoryBox({data}){
     <View style={[styles.box, {backgroundColor: data.color}]}>
       <View style={{height: 35, justifyContent: 'center'}}><Text style={[theme.c3, styles.box_label]}>{data.name}</Text></View>
       <View style={{flexDirection: 'row', height: 35, alignItems: 'center'}}>
-        <View style={{width: 110, alignItems: 'center'}}><Text style={[{fontWeight: '500', fontSize: 12}, theme.c3]}>Spent: <Text style={{fontSize: 14, fontWeight: '600'}}>₹ {data.monthly.spent}</Text></Text></View>
-        <View style={{width: 110, alignItems: 'center'}}><Text style={[{fontWeight: '500', fontSize: 12}, theme.c3]}>Budget: <Text style={{fontSize: 14, fontWeight: '600'}}>₹ {data.monthly.budget}</Text></Text></View>
+        <View style={{width: 110, alignItems: 'center'}}><Text style={[{fontWeight: '500', fontSize: 12}, theme.c3]}>Spent: <Text style={{fontSize: 14, fontWeight: '600'}}>₹ {data.monthly.formatted_spent}</Text></Text></View>
+        <View style={{width: 110, alignItems: 'center'}}><Text style={[{fontWeight: '500', fontSize: 12}, theme.c3]}>Budget: <Text style={{fontSize: 14, fontWeight: '600'}}>₹ {data.monthly.formatted_budget}</Text></Text></View>
       </View>
       <View style={[styles.row2, theme.bg3]}>
         <View style={{flexDirection: 'row'}}>
@@ -59,6 +59,10 @@ export default function SubcategoryList({id}) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
   },
   box: {
     width: 240,

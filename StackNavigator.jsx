@@ -37,7 +37,7 @@ export default function StackNavigator() {
   }, []);
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false, animation: 'default'}} initialRouteName='Login'>
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "none"}} initialRouteName='Login'>
       <Stack.Group>
         <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen name="Accounts" component={Accounts}/>

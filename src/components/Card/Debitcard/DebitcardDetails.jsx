@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
-    fontSize: 14
+    fontSize: 14,
+    color: Styles.lightgray
   },
   value: {
     paddingLeft: 6,
@@ -175,7 +176,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: 'white',
-    width: 180
+    width: 180,
+    height: 38,
+    paddingLeft: 5,
+    color: 'white'
   },
   save_btn: {
     paddingHorizontal: 15,
