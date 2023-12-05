@@ -75,7 +75,7 @@ export default function Home() {
   const [page, setPage] = useState(pages[0])
 
   return (
-    <SafeAreaView style={styles.safe_area_view}>
+    <SafeAreaView style={[styles.safe_area_view]}>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -97,7 +97,7 @@ export default function Home() {
 const styles = StyleSheet.create({
   safe_area_view: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   home: {
     flex: 1,

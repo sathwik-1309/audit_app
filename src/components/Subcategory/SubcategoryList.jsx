@@ -1,16 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, {useContext, useEffect, useState} from 'react'
 import { getAuthToken } from '../../util';
 import { HOST_IP } from '../../config';
 import axios from 'axios';
 import ThemeContext from '../Context/ThemeContext';
 import { Styles } from '../../Styles';
+import { useNavigation } from '@react-navigation/native';
 
 function SubcategoryBox({data}){
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
+  const navigation = useNavigation()
+  
   return (
-    <View style={[styles.box, {backgroundColor: data.color}]}>
+    <TouchableOpacity style={[styles.box, {backgroundColor: data.color}]} onPress={()=>navigation.navigate("Subcategory", {id: data.id, name: data.name})}>
       <View style={{height: 35, justifyContent: 'center'}}><Text style={[theme.c3, styles.box_label]}>{data.name}</Text></View>
       <View style={{flexDirection: 'row', height: 35, alignItems: 'center'}}>
         <View style={{width: 110, alignItems: 'center'}}><Text style={[{fontWeight: '500', fontSize: 12}, theme.c3]}>Spent: <Text style={{fontSize: 14, fontWeight: '600'}}>₹ {data.monthly.formatted_spent}</Text></Text></View>
@@ -25,7 +28,7 @@ function SubcategoryBox({data}){
           <View style={{justifyContent: 'center'}}><Text style={{color: data.color, fontWeight: '700', fontSize: 14, paddingLeft: 7}}>{data.monthly.percentage}%</Text></View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

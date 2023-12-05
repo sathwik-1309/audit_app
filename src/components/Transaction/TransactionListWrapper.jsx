@@ -37,7 +37,7 @@ export function TransactionListWrapper({payload}) {
     <MonthPicker month={month} setMonth={setMonth} year={year} setYear={setYear} onPress={handleReload}/>
     {
       data &&
-      <TransactionsList transactions={data}/>
+      <TransactionsList transactions={data.transactions} colors={data.colors}/>
     }
     </>
     

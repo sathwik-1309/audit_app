@@ -9,24 +9,41 @@ import { getAuthToken } from '../util'
 import { HOST_IP } from '../config'
 import axios from 'axios'
 import { useNavigation } from '@react-navigation/native'
+import SelectDropdown from 'react-native-select-dropdown'
 
 function TsItem({label, value}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   return (
-    <View style={{flexDirection: 'row', height: 40, alignItems: 'center', marginVertical: 7}}>
-      <View style={{width: 90}}><Text style={[theme.c2, styles.label_text]}>{label}</Text></View>
-      <View><Text style={[theme.c1, styles.value_text]}>{value}</Text></View>
+    <View style={[styles.ts_item]}>
+      <View style={[styles.ts_label, theme.bg1]}><Text style={[theme.c3, styles.label_text]}>{label}</Text></View>
+      <View style={[styles.ts_value, theme.bg2]}><Text style={[theme.c3, styles.value_text]}>{value}</Text></View>
     </View>
   )
 }
 
 export default function TransactionScreen({route}) {
-  const { data } = route.params
+  const { data, colors } = route.params
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation()
+  const [edit, setEdit] = useState(false)
+  const [category, setCategory] = useState(null)
+  const [subCategory, setSubCategory] = useState(null)
+  const [data2, setData2] = useState(null)
+  const [error, setError] = useState('')
+  useEffect(() => {
+    const fetchData = async () => {
+      const authToken = await getAuthToken()
+      const url = `${HOST_IP}/categories/index?auth_token=${authToken}`
+      const response = await axios.get(url)
+      setData2(response.data)
+    }
+
+    fetchData()
+  }, [])
+
   async function handleYes () {
     const authToken = await getAuthToken()
     const url = `${HOST_IP}/transactions/${data.id}/delete?auth_token=${authToken}`
@@ -48,12 +65,40 @@ export default function TransactionScreen({route}) {
   const handleNo = () => {
     setModalVisible(false)
   }
-  console.log(data)
+  
+  async function handleSave () {
+    if (category == null){
+      setError("Select a Category")
+      return
+    }
+    if (subCategory == null) {
+      setError("Select a Sub Category")
+      return
+    }
+    const payload = {
+      category_id: category.id,
+      sub_category_id: subCategory.id
+    }
+    try{
+      const authToken = await getAuthToken()
+      const url = `${HOST_IP}/transactions/${data.id}/update?auth_token=${authToken}`
+      const response = await axios.put(url, payload)
+      if (response.status == 200){
+        setError('')
+        setEdit(false)
+      }else{
+        console.log(response.data.message)
+      }
+    }catch(e){
+      console.log(e.message)
+    }
+  }
   return (
     <SafeAreaView>
     <View style={[]}>
       <Topbar header='Transaction'/>
       <View style={[styles.details]}>
+        <TouchableOpacity style={{alignItems: 'center', height: 30}} onPress={()=>{setEdit(!edit)}}><Text style={[theme.c1, {fontSize: 14, fontWeight: '600'}]}>EDIT</Text></TouchableOpacity>
         <TsItem label='Date' value={data.date}/>
         <TsItem label='Amount' value={`${data.signed_amount}`}/>
         <TsItem label='Type' value={data.ttype}/>
@@ -79,21 +124,99 @@ export default function TransactionScreen({route}) {
         }
         <TsItem label='Comments' value={data.comments}/>
         {
-          data.category &&
-          <View style={{flexDirection: 'row', marginVertical: 8}}>
-            <View style={{width: 90, justifyContent: 'center'}}><Text style={[theme.c2, styles.label_text]}>Category</Text></View>
-            <View style={[{backgroundColor: data.category.color}, styles.category]}>
-              <Text style={[theme.c3, styles.category_text]}>{data.category.category}</Text>
-            </View>
+          error != '' &&
+          <View>
+            <Text style={{color: 'red', fontWeight: '500'}}>{error}</Text>
           </View>
         }
         {
           data.category &&
-          <View style={{flexDirection: 'row', marginVertical: 8}}>
-            <View style={{width: 90, justifyContent: 'center'}}><Text style={[theme.c2, styles.label_text]}>Sub Category</Text></View>
-            <View style={[{backgroundColor: data.category.color}, styles.category]}>
-              <Text style={[theme.c3, styles.category_text]}>{data.category.sub_category}</Text>
+          <>
+          {
+            edit ? 
+            <View style={{flexDirection: 'row', marginVertical: 8}}>
+              <View style={{width: 120, justifyContent: 'center'}}><Text style={[theme.c2, styles.label_text]}>Category</Text></View>
+              <SelectDropdown
+                data={data2.categories}
+                onSelect={(selectedItem, index) => {
+                  setCategory(selectedItem)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem.name
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item.name
+                }}
+                defaultButtonText='Select Category'
+                buttonStyle={[styles.select_btn, theme.bg2]}
+                buttonTextStyle={[styles.select_btn_text, theme.c3]}
+                selectedRowStyle={theme.bg1}
+                selectedRowTextStyle={theme.c3}
+                showsVerticalScrollIndicator
+                rowStyle={{height: 50}}
+                rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+              />
+            </View>   
+             :
+            <View style={{flexDirection: 'row', marginVertical: 8}}>
+              <View style={{width: 120, justifyContent: 'center'}}><Text style={[theme.c2, styles.label_text]}>Category</Text></View>
+              <TouchableOpacity style={[{backgroundColor: data.category.color}, styles.category]} onPress={()=>navigation.navigate("Category", {id: data.category.category_id, name: data.category.category})}>
+                <Text style={[theme.c3, styles.category_text]}>{data.category.category}</Text>
+              </TouchableOpacity>
+            </View>             
+          }
+          </>
+          
+        }
+        {
+          data.category &&
+          <>
+          {
+            edit ?
+            <>
+            {
+              category && 
+              <View style={{flexDirection: 'row', marginVertical: 8}}>
+              <View style={{width: 120, justifyContent: 'center'}}><Text style={[theme.c2, styles.label_text]}>Sub Category</Text></View>
+              <SelectDropdown
+                data={category.sub_categories}
+                onSelect={(selectedItem, index) => {
+                  setSubCategory(selectedItem)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem.name
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item.name
+                }}
+                defaultButtonText='Select Sub Category'
+                buttonStyle={[styles.select_btn, theme.bg2]}
+                buttonTextStyle={[styles.select_btn_text, theme.c3]}
+                selectedRowStyle={theme.bg1}
+                selectedRowTextStyle={theme.c3}
+                showsVerticalScrollIndicator
+                rowStyle={{height: 50}}
+                rowTextStyle={{fontSize: 14, fontWeight: '600'}}
+              />
             </View>
+            }
+            </>
+            :
+            <View style={{flexDirection: 'row', marginVertical: 8}}>
+              <View style={{width: 120, justifyContent: 'center'}}><Text style={[theme.c2, styles.label_text]}>Sub Category</Text></View>
+              <TouchableOpacity style={[{backgroundColor: data.category.color}, styles.category]} onPress={()=>navigation.navigate("Subcategory", {id: data.category.id, name: data.category.sub_category})}>
+                <Text style={[theme.c3, styles.category_text]}>{data.category.sub_category}</Text>
+              </TouchableOpacity>
+            </View>
+          }
+          </>
+        }
+        {
+          edit &&
+          <View style={{alignItems: 'center', marginBottom: 10}}>
+          <TouchableOpacity style={[styles.save_btn, theme.bg1]} onPress={handleSave}>
+            <Text style={[styles.save_text, theme.c3]}>SAVE</Text>
+          </TouchableOpacity>
           </View>
         }
 
@@ -121,12 +244,12 @@ const styles = StyleSheet.create({
     marginLeft: 40
   },
   value_text :{
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '500'
   },
   label_text: {
-    fontSize: 15,
-    fontWeight: '700'
+    fontSize: 13,
+    fontWeight: '600'
   },
   category: {
     width: 100,
@@ -138,5 +261,40 @@ const styles = StyleSheet.create({
   category_text: {
     fontSize: 15,
     fontWeight: '700'
-  }
+  },
+  ts_item: {
+    flexDirection: 'row', 
+    height: 50, 
+    alignItems: 'center', 
+    marginVertical: 1, 
+    borderRadius: 4, 
+    overflow: 'hidden'
+  },
+  ts_label: {
+    width: 100, 
+    height: 50, 
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  ts_value: {
+    width: 220, 
+    height: 50, 
+    paddingLeft: 10, 
+    justifyContent: 'center', 
+    borderTopRightRadius: 4, 
+    borderBottomRightRadius: 4
+  },
+  save_btn: {
+    marginTop: 10,
+    height: 35,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'green',
+    width: 100
+  },
+  save_text: {
+    fontWeight: '600',
+    fontSize: 15
+  },
 })

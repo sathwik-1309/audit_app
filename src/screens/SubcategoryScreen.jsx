@@ -2,22 +2,17 @@ import { RefreshControl, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, 
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Styles } from '../Styles'
 import BottomBar from '../components/BottomBar'
-import AccountList from '../components/Account/AccountList'
-import OwedList from '../components/Owed/OwedList'
 import ThemeContext from '../components/Context/ThemeContext'
 import Topbar from '../components/Topbar'
-import AccountDetails from '../components/Account/AccountDetails'
-import axios from 'axios'
-import { HOST_IP, MONTHS, YEARS } from '../config'
 import HomePie from '../components/Pie/HomePie'
 import NavigationBar from '../components/NavigationBar'
-import { getAuthToken } from '../util'
-import MonthPicker from '../components/MonthPicker'
 import { TransactionListWrapper } from '../components/Transaction/TransactionListWrapper'
 import AnalyticsParent from '../components/Transaction/AnalyticsParent'
-import CreditcardDetails from '../components/Card/Creditcard/CreditcardDetails'
+import CategoryDetails from '../components/Category/CategoryDetails'
+import SubcategoryList from '../components/Subcategory/SubcategoryList'
+import SubcategoryDetails from '../components/Subcategory/SubcategoryDetails'
 
-export default function CreditcardScreen({route}) {
+export default function SubcategoryScreen({route}) {
   const { id, name } = route.params
   let { themeColor } = useContext(ThemeContext)
   const theme = Styles[themeColor]
@@ -31,11 +26,10 @@ export default function CreditcardScreen({route}) {
     setRefreshing(false);
   }
 
-  const comp_details = <CreditcardDetails id={id} card_name={name} setHeader={setHeader} drag={reload}/>
-  const comp_category = <HomePie url_add={`&card_id=${id}`} drag={reload}/>
-
+  const comp_details = <SubcategoryDetails id={id} category_name={name} setHeader={setHeader} drag={reload}/>
+  
   const tr_api_payload = {
-    card_id: id
+    sub_category_id: id
   }
   const pages = [
     {
@@ -45,10 +39,6 @@ export default function CreditcardScreen({route}) {
     {
       name: 'Transactions',
       comp: <TransactionListWrapper payload={tr_api_payload}/>
-    },
-    {
-      name: 'Split',
-      comp: comp_category
     },
     {
       name: 'Analytics',

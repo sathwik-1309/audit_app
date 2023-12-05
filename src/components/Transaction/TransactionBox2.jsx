@@ -2,13 +2,13 @@ import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'reac
 import React, { useContext } from 'react'
 import { Styles } from '../../Styles'
 import ThemeContext from '../Context/ThemeContext'
-import AccountIcon from '../../../assets/icons/wallet-image.png'
+import AccountIcon from '../../../assets/icons/wallet-image2.png'
 import CashIcon from '../../../assets/icons/dollar.png'
 import CardIcon from '../../../assets/icons/card-image.png'
 import PartyIcon from '../../../assets/icons/party-image.png'
 import { useNavigation } from '@react-navigation/native'
 
-export default function TransactionBox2({data, index}) {
+export default function TransactionBox2({data, index, colors}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const navigation = useNavigation()
@@ -28,13 +28,13 @@ export default function TransactionBox2({data, index}) {
       break
   }
   return (
-    <TouchableOpacity style={[theme.bg1, styles.box]} onPress={()=>navigation.navigate("Transaction", {data: data})}>
+    <TouchableOpacity style={[theme.bg1, styles.box]} onPress={()=>navigation.navigate("Transaction", {data: data, colors: colors})}>
       <View style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
         <View style={{paddingLeft: 10, width: 230}}><Text style={{fontSize: 12, fontWeight: '500', color: Styles.lightgray}}>{data.date_text}</Text></View>
         <View style={{justifyContent: 'flex-end'}}>
           {
             data.category &&
-            <View style={[styles.category, {backgroundColor: data.category.color}]}><Text style={[{fontSize: 10, fontWeight: '900'}, theme.c3]}>{data.sub_category}</Text></View>
+            <TouchableOpacity style={[styles.category, {backgroundColor: data.category.color}]} onPress={()=>navigation.navigate("Subcategory", {id: data.category.id, name: data.category.sub_category})}><Text style={[{fontSize: 10, fontWeight: '900'}, theme.c3]}>{data.sub_category}</Text></TouchableOpacity>
           }
         </View>
       </View>

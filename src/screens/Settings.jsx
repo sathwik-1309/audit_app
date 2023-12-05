@@ -20,7 +20,7 @@ function ConfigItem({name, value, config, reload}){
   async function handleUpdate () {
     let payload = {}
     payload[config] = value ? 'disabled' : 'enabled'
-    console.log(payload)
+    
     const authToken = await getAuthToken()
     const url = `${HOST_IP}/v1/users/update_configs?auth_token=${authToken}`
     try {
@@ -181,6 +181,8 @@ export default function Settings() {
             <View style={{height: 40}}><Text style={[{fontSize: 15, fontWeight: '700'}, theme.c1]}>User Configs</Text></View>
             <ConfigItem name='Decimals' value={data.amount_decimal} config='amount_decimal' reload={handleReload}/>
             <ConfigItem name='Commas' value={data.amount_commas} config='amount_commas' reload={handleReload}/>
+            <ConfigItem name='Date format DD-MM-YY' value={data.date_format} config='date_format' reload={handleReload}/>
+            <ConfigItem name='Hide Balance' value={data.lock} config='lock' reload={handleReload}/>
           </View>
         }
         

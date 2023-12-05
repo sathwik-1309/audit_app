@@ -24,6 +24,7 @@ export default function AccountList({drag}) {
       const url = `${HOST_IP}/accounts/index?auth_token=${authToken}&timestamp=${timestamp}`
       const response = await axios.get(url)
       setData(response.data)
+      console.log(response.data)
     };
 
     fetchData();
@@ -57,8 +58,8 @@ export default function AccountList({drag}) {
       <View style={styles.body}>
         {
           data &&
-          data.accounts.map((account, index)=>{
-            return(<AccountBox data={account} key={index} lock={data.lock}/>)
+          data.map((account, index)=>{
+            return(<AccountBox data={account} key={index}/>)
           })
         }
       </View>
