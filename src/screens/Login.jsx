@@ -38,11 +38,13 @@ export default function Login() {
         navigation.navigate("Home")
       }else if (response.status == 202){
         setError(response.data.message)
+        console.log(response.data)
       }else {
         setError("Some other error")
       }
     }catch(error){
       setError(error.message)
+      console.log(error)
     }
   }
   return (

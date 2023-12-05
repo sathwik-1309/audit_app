@@ -9,7 +9,7 @@ import Setting from '../../assets/icons/setting.png'
 
 
 export default function Icon({icon, size}) {
-  const size_ = size ? size : 25
+  const size_ = size ? size : 20
   const size_style = {
     height: size_,
     width: size_
@@ -23,7 +23,7 @@ export default function Icon({icon, size}) {
         image = <Image source={Setting} style={size_style}/>
         break;
     case 'user':
-      image = <Image source={Owed} style={size_style}/>
+      image = <Image source={Owed} style={{height: 20, width: 20}}/>
       break;
     case 'home':
       image = <Image source={Home} style={{height: 20, width: 20}}/>
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   image_container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   }
 })

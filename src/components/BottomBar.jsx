@@ -56,7 +56,7 @@ export default function BottomBar() {
 
 const styles = StyleSheet.create({
   BottomBar: {
-    height: 55,
+    height: 65,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   BottomBarItem: {
-    height: 50,
+    height: 60,
     width: 60,
     justifyContent: 'center',
     alignItems: 'center',
