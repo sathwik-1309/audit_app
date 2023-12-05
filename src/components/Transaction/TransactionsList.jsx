@@ -5,7 +5,7 @@ import { Styles } from '../../Styles';
 import TransactionBox2 from './TransactionBox2';
 import InvertIcon from '../../../assets/icons/invert.png'
 
-export default function TransactionsList({ transactions, reload }) {
+export default function TransactionsList({ transactions, reload, colors }) {
   const { themeColor } = useContext(ThemeContext);
   const theme = Styles[themeColor]
   const [invert, setInvert] = useState(false)
@@ -24,7 +24,7 @@ export default function TransactionsList({ transactions, reload }) {
           <FlatList
             data={transactions}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item, index }) => <TransactionBox2 data={item} index={index}/>}
+            renderItem={({ item, index }) => <TransactionBox2 data={item} index={index} colors={colors}/>}
             scrollEnabled={false}
             contentContainerStyle={{}}
           /> :
@@ -32,7 +32,7 @@ export default function TransactionsList({ transactions, reload }) {
           <FlatList
               data={[...transactions].reverse()}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, index }) => <TransactionBox2 data={item} index={index}/>}
+              renderItem={({ item, index }) => <TransactionBox2 data={item} index={index} colors={colors}/>}
               scrollEnabled={false}
               contentContainerStyle={{}}
             />

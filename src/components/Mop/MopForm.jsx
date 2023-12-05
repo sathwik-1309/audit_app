@@ -48,6 +48,7 @@ export default function MopForm({account_id, reload, close}) {
         <Image source={PaymentIcon} style={{height: 25, width: 25}}/>
         <TextInput 
         placeholder="Mode of Payment"
+        placeholderTextColor={Styles.lightgray}
         value={name}
         onChangeText={(name) => setName(name)}
         style={styles.input_text}
@@ -69,10 +70,12 @@ const styles = StyleSheet.create({
   input_box: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 40
   },
   input_text: {
     width: 200,
-    paddingLeft: 10
+    paddingLeft: 10,
+    color: 'white'
   },
   button_row: {
     justifyContent: 'center',

@@ -19,7 +19,7 @@ export default function OwedBox({data}) {
             <View style={{paddingLeft: 10}}><Text style={[styles.name, theme.c3]}>{data.name}</Text></View>
           </View>
           <View style={styles.row2}>
-            <Text style={styles.balance_label}>Balance <Text style={[styles.amount, theme.c3]}>₹ {data.balance}</Text></Text>
+            <Text style={[styles.balance_label, {color: Styles.lightgray}]}>Balance <Text style={[styles.amount, theme.c3]}>₹ {data.formatted_balance}</Text></Text>
           </View>
         </View>
         <TouchableOpacity style={styles.arrow} onPress={()=>navigation.navigate("Owed", {id: data.id, name: data.name})}><Image source={RightArrow} style={{height: 25, width: 25}}/></TouchableOpacity>

@@ -1,1 +1,73 @@
-9B2525
+if bow_ratings.length >= PERIOD_MIN
+      if bow_ratings.length == PERIOD_MAX
+        bow_ratings.slice!(0, PERIOD_MAX - PERIOD_MIN)
+      end
+
+      if bow_ratings.length == PERIOD_MIN
+        player_bow_ratings = {}
+        first_array = bow_ratings.slice(0, PERIOD_HALF)
+        second_array = bow_ratings.slice(PERIOD_HALF, bow_ratings.length - PERIOD_HALF)
+
+        first_array.each do |ratings|
+          ratings.each do |rating|
+            id = rating['id']
+            player_bow_ratings[id] = {'points' => 0, 'matches'=>0, 'inn'=>0} unless player_bow_ratings.has_key? id
+            player_bow_ratings[id]['points'] = (player_bow_ratings[id]['points']+rating['points']).round(2)
+            player_bow_ratings[id]['matches'] += 1
+            player_bow_ratings[id]['inn'] += 1
+          end
+        end
+
+        player_bow_ratings.each do |id, value|
+          matches = player_bow_ratings[id]['matches'] < (MIN_INNINGS_PER_HALF) ? (MIN_INNINGS_PER_HALF) : player_bow_ratings[id]['matches']
+          player_bow_ratings[id]['matches'] = matches
+        end
+
+        second_array.each do |ratings|
+          ratings.each do |rating|
+            id = rating['id']
+            player_bow_ratings[id] = {'points' => 0, 'matches'=> MIN_INNINGS_PER_HALF, 'inn'=>0} unless player_bow_ratings.has_key? id
+            player_bow_ratings[id]['points'] = (player_bow_ratings[id]['points']+(rating['points']*2)).round(2)
+            player_bow_ratings[id]['matches'] += 2
+            player_bow_ratings[id]['inn'] += 1
+          end
+        end
+
+        player_bow_ratings.each do |id, value|
+          matches = player_bow_ratings[id]['matches'] < (MIN_INNINGS_PER_HALF*3) ? (MIN_INNINGS_PER_HALF*3) : player_bow_ratings[id]['matches']
+          player_bow_ratings[id]['rating'] = (player_bow_ratings[id]['points'].to_f/matches).round(2)
+        end
+
+      else
+        bow_ratings[-1].each do |rating|
+          id = rating['id']
+          player_bow_ratings[id] = {'points' => 0, 'matches'=>0, 'inn'=>0} unless player_bow_ratings.has_key? id
+          player_bow_ratings[id]['points'] = (player_bow_ratings[id]['points']+(rating['points']*2)).round(2)
+          player_bow_ratings[id]['matches'] += 2
+          player_bow_ratings[id]['inn'] += 1
+          matches = player_bow_ratings[id]['matches'] < (MIN_INNINGS_PER_HALF*3) ? (MIN_INNINGS_PER_HALF*3) : player_bow_ratings[id]['matches']
+          player_bow_ratings[id]['rating'] = (player_bow_ratings[id]['points'].to_f/matches).round(2)
+        end
+        
+      end
+
+      player_bow_ratings_arr = player_bow_ratings.sort_by { |key, value| - value['rating'] }
+
+      if player_bow_ratings_arr[0][0] == first_bow
+        leaderboard_bow[first_bow] = {'times'=>1, 'matches'=>0} unless leaderboard_bow.has_key? first_bow
+        leaderboard_bow[first_bow]['matches'] += 1
+      else
+        first_bow = player_bow_ratings_arr[0][0]
+        leaderboard_bow[first_bow] = {'times'=>0, 'matches'=>0} unless leaderboard_bow.has_key? first_bow
+        leaderboard_bow[first_bow]['times'] += 1
+        leaderboard_bow[first_bow]['matches'] += 1
+      end
+    else
+      bow_ratings[-1].each do |rating|
+        id = rating['id']
+        player_bow_ratings[id] = {'points' => 0, 'matches'=>0} unless player_bow_ratings.has_key? id
+        player_bow_ratings[id]['points'] = (player_bow_ratings[id]['points']+rating['points']).round(2)
+        player_bow_ratings[id]['matches'] += 1
+        player_bow_ratings[id]['rating'] = (player_bow_ratings[id]['points']/player_bow_ratings[id]['matches']).round(2)
+      end
+    end

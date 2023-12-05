@@ -10,7 +10,7 @@ function DetailBoxItem({data}) {
       <View style={{backgroundColor: data.color, width: 35, height: 35, borderRadius: 6}}></View>
       <View style={styles.percentage}><Text style={[styles.percentage_text, theme.c1]}>{data.percentage} <Text style={{fontWeight: '500', fontSize: 12}}>%</Text></Text></View>
       <View style={styles.category}><Text style={[styles.catgeory_text, theme.c1]}>{data.category}</Text></View>
-      <View style={styles.category}><Text style={[styles.expenditure_text, theme.c1]}>₹ {data.expenditure}</Text></View>
+      <View style={styles.category}><Text style={[styles.expenditure_text, theme.c1]}>₹ {data.formatted_expenditure}</Text></View>
     </View>
   )
 }

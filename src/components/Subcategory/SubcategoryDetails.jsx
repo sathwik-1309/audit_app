@@ -11,7 +11,6 @@ import { useNavigation } from '@react-navigation/native'
 import DeleteIcon from '../../../assets/icons/delete.png'
 import YesNoModal from '../YesNoModal'
 import ColorPalette from '../../../assets/icons/color-palette.png'
-import SelectDropdown from 'react-native-select-dropdown'
 
 function DetailBox1({data, category_name, id, setHeader}) {
   let {themeColor} = useContext(ThemeContext)
@@ -20,16 +19,14 @@ function DetailBox1({data, category_name, id, setHeader}) {
   const [name, setName] = useState(category_name)
   const [monthLimit, setMonthLimit] = useState(data.details.monthly_limit)
   const [yearLimit, setYearLimit] = useState(data.details.yearly_limit)
-  const [color, setColor] = useState(data.details.color)
   const handleSave = async () => {
     const payload = {
       name: name,
       monthly_limit: monthLimit,
       yearly_limit: yearLimit,
-      color: color.color
     }
     const authToken = await getAuthToken()
-    const url = `${HOST_IP}/categories/${id}/update?auth_token=${authToken}`
+    const url = `${HOST_IP}/sub_categories/${id}/update?auth_token=${authToken}`
     try{
       const response = await axios.put(url, payload)
       if (response.status != 200){
@@ -46,7 +43,7 @@ function DetailBox1({data, category_name, id, setHeader}) {
   return(
     <View style={[theme.bg1, styles.container]}>
         <View style={[theme.bg2, styles.header]}>
-          <Text style={[theme.c3, styles.header_text]}>Category Details</Text>
+          <Text style={[theme.c3, styles.header_text]}>Subcategory Details</Text>
           <TouchableOpacity onPress={()=>{setEdit(!edit)}} style={{alignItems: 'center', flex: 1}}><Image source={edit ? CancelIcon : EditIcon} style={{height: 15, width: 15}}/></TouchableOpacity>
         </View>
         <View style={[styles.body]}>
@@ -91,36 +88,10 @@ function DetailBox1({data, category_name, id, setHeader}) {
             }
             
           </View>
-          {
-            edit ?
-            <View style={{flexDirection: 'row', height: 40, alignItems: 'center', marginBottom: 10}}>
-              <Image source={ColorPalette} style={styles.img_style}/>
-              <SelectDropdown
-                data={data.colors}
-                onSelect={(selectedItem, index) => {
-                  setColor(selectedItem)
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem.name
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item.name
-                }}
-                defaultButtonText='Select Color'
-                buttonStyle={[styles.select_btn, {backgroundColor: color ? color.color : theme.bg2}]}
-                buttonTextStyle={[styles.select_btn_text, theme.c3]}
-                selectedRowStyle={theme.bg3}
-                selectedRowTextStyle={theme.c1}
-                showsVerticalScrollIndicator
-                rowStyle={{height: 50}}
-                rowTextStyle={{fontSize: 14, fontWeight: '600'}}
-              />
-            </View> :
-            <View style={{flexDirection: 'row', height: 40, alignItems: 'center', marginBottom: 10}}>
-              <Image source={ColorPalette} style={styles.img_style}/>
-              <View style={{width: 120, height: 35, backgroundColor: color.color, justifyContent: 'center', alignItems: 'center', borderRadius: 6}}><Text style={[theme.c3, {fontWeight: '600', fontSize: 14}]}>{color.name}</Text></View>
-            </View>
-          }
+          <View style={{flexDirection: 'row', height: 40, alignItems: 'center', marginBottom: 10}}>
+            <Image source={ColorPalette} style={styles.img_style}/>
+            <View style={{width: 120, height: 35, backgroundColor: data.details.color.color, justifyContent: 'center', alignItems: 'center', borderRadius: 6}}><Text style={[theme.c3, {fontWeight: '600', fontSize: 14}]}>{data.details.color.name}</Text></View>
+          </View>
             {
               edit &&
               <View style={{alignItems: 'center', marginBottom: 10}}>
@@ -135,7 +106,7 @@ function DetailBox1({data, category_name, id, setHeader}) {
   )
 }
 
-export default function CategoryDetails({id, category_name, setHeader, drag}) {
+export default function SubcategoryDetails({id, category_name, setHeader, drag}) {
   let {themeColor} = useContext(ThemeContext)
   const theme = Styles[themeColor]
   const [name, setName] = useState(category_name)
@@ -148,7 +119,7 @@ export default function CategoryDetails({id, category_name, setHeader, drag}) {
   useEffect(() => {
     const fetchData = async () => {
       const authToken = await getAuthToken()
-      const url = `${HOST_IP}/v1/categories/${id}/details?auth_token=${authToken}`
+      const url = `${HOST_IP}/v1/sub_categories/${id}/details?auth_token=${authToken}`
       const response = await axios.get(url)
       setData(response.data)
       console.log(response.data)
@@ -161,7 +132,7 @@ export default function CategoryDetails({id, category_name, setHeader, drag}) {
 
   async function handleYes () {
     const authToken = await getAuthToken()
-    const url = `${HOST_IP}/categories/${id}/delete?auth_token=${authToken}`
+    const url = `${HOST_IP}/sub_categories/${id}/delete?auth_token=${authToken}`
     try{
       const response = await axios.delete(url)
       if (response.status != 200){
@@ -179,7 +150,8 @@ export default function CategoryDetails({id, category_name, setHeader, drag}) {
   const handleNo = () => {
     setModalVisible(false)
   }
-  const Color = data && data.details.color.color
+
+  console.log(data)
 
   return (
     <View>
@@ -252,7 +224,7 @@ export default function CategoryDetails({id, category_name, setHeader, drag}) {
           isVisible={isModalVisible}
           onYes={handleYes}
           onNo={handleNo}
-          message="Are you sure you want to delete the Category?"
+          message="Are you sure you want to delete the Subcategory?"
         />
       </View>
       

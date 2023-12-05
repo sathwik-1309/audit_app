@@ -10,7 +10,7 @@ export default function TransactionBox({data, index}) {
     <View style={[styles.box, theme.bg1]}>
       {/* <View style={[styles.ttype,  data.ttype == 'credit' ? styles.credit : styles.debit]}><Text style={[theme.c3, styles.ttype_text]}>{data.ttype.toUpperCase()}</Text></View> */}
       <View style={styles.amount}><Text style={[styles.amount_text, theme.c3]}>{data.signed_amount}</Text></View>
-      <View style={[styles.date]}><Text style={[styles.date_text]}>{data.date}</Text></View>
+      <View style={[styles.date]}><Text style={[styles.date_text, {color: Styles.lightgray}]}>{data.date_text}</Text></View>
       <View style={[styles.category]}>
         {
           data.category &&
@@ -31,7 +31,11 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    elevation: 5
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   ttype: {
     borderRadius: 10,
@@ -63,7 +67,7 @@ const styles = StyleSheet.create({
   },
   date_text: {
     fontSize: 11,
-    fontWeight: '600'
+    fontWeight: '600',
   },
   amount: {
     width: 110,

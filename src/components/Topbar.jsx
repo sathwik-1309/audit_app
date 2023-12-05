@@ -10,7 +10,7 @@ export default function Topbar({header}) {
   const theme = Styles[themeColor]
   const navigation = useNavigation()
   return (
-    <View style={styles.topbar}>
+    <View style={[styles.topbar, {color: 'black', backgroundColor: 'white'}]}>
       <Pressable style={{width: 50, height: 50, justifyContent: 'center', paddingLeft: 10}} onPress={()=>navigation.pop()}><Image source={BackIcon} style={{height: 25, width: 25}}/></Pressable>
       <View style={styles.header}><Text style={styles.header_text}>{header}</Text></View>
     </View>
@@ -20,7 +20,11 @@ export default function Topbar({header}) {
 const styles = StyleSheet.create({
   topbar: {
     height: 50,
-    elevation: 1,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
     alignItems: 'center',
     flexDirection: 'row',
     borderColor: 'black',

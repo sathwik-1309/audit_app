@@ -58,6 +58,7 @@ export default function AccountForm({reload, close}) {
         <Image source={Wallet} style={{height: 25, width: 25}}/>
         <TextInput 
         placeholder="Account Name"
+        placeholderTextColor={Styles.lightgray}
         value={name}
         onChangeText={(name) => setName(name)}
         style={styles.input_text}
@@ -67,6 +68,7 @@ export default function AccountForm({reload, close}) {
         <View style={styles.rupee}><Text style={[styles.rupee_text, theme.c3]}>₹</Text></View>
         <TextInput 
         placeholder="Opening Balance"
+        placeholderTextColor={Styles.lightgray}
         value={balance}
         keyboardType="numeric"
         onChangeText={(balance) => setBalance(balance)}
@@ -86,10 +88,12 @@ const styles = StyleSheet.create({
   input_box: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 40
   },
   input_text: {
     width: 200,
-    paddingLeft: 10
+    paddingLeft: 10,
+    color: 'white'
   },
   rupee: {
     justifyContent: 'center',

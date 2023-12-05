@@ -24,7 +24,7 @@ export default function Cards() {
       setData(jsonData);
       const response2 = await fetch(url2);
       const jsonData2 = await response2.json();
-      setAccounts(jsonData2)
+      setAccounts(jsonData2.accounts)
     };
 
     fetchData();

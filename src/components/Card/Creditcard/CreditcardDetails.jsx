@@ -142,6 +142,7 @@ export default function CreditcardDetails({id, card_name, setHeader, drag}) {
             style={styles.bill_input}
             onChangeText={(bill) => setBill(bill)}
             placeholder='Enter Amount'
+            placeholderTextColor={Styles.lightgray}
             keyboardType="numeric"
           />
         </View>
@@ -155,6 +156,7 @@ export default function CreditcardDetails({id, card_name, setHeader, drag}) {
               style={[styles.bill_input]}
               onChangeText={(comments) => setComments(comments)}
               placeholder='Comments'
+              placeholderTextColor={Styles.lightgray}
               />
             </View>
             <View style={{alignItems: 'center', marginBottom: 10}}>
@@ -215,7 +217,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: '600',
-    fontSize: 14
+    fontSize: 14,
+    color: Styles.lightgray
   },
   value: {
     paddingLeft: 6,
@@ -228,7 +231,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     borderColor: 'white',
-    width: 180
+    width: 180,
+    height: 40,
+    paddingLeft: 5,
+    color: 'white'
   },
   save_btn: {
     paddingHorizontal: 15,
@@ -244,6 +250,7 @@ const styles = StyleSheet.create({
     fontSize: 13
   },
   bill_input: {
-    width: 200
+    width: 200,
+    color: 'white'
   }
 })

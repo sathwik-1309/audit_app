@@ -6,7 +6,7 @@ import axios from 'axios';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [themeColor, setThemeColor] = useState('orange')
+  const [themeColor, setThemeColor] = useState('midnight')
   useEffect(()=>{
     const fetch = async () => {
       const authToken = await getAuthToken()
